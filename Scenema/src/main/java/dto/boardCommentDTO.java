@@ -1,14 +1,14 @@
 package dto;
 
 public class boardCommentDTO {
-	String userName, bcCreateAt, contents;
+	String userid, bcCreateAt, contents;
 
-	public String getUserName() {
-		return userName;
+	public String getUserid() {
+		return userid;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 
 	public String getBcCreateAt() {

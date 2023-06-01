@@ -1,14 +1,14 @@
 package dto;
 
 public class userDTO {
-	String userName, pw, name, phone, email;
+	String userid, pw, name, phone, email;
 
-	public String getUserName() {
-		return userName;
+	public String getUserid() {
+		return userid;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 
 	public String getPw() {

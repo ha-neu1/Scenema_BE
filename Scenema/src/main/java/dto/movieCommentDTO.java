@@ -1,16 +1,17 @@
 package dto;
 
 public class movieCommentDTO {
-	String userName;
+	String userid;
 	int scope;
 	String createAt, contents;
 	int like;
 	
-	public String getUserName() {
-		return userName;
+	
+	public String getUserid() {
+		return userid;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 	public int getScope() {
 		return scope;

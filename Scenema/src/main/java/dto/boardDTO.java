@@ -1,15 +1,15 @@
 package dto;
 
 public class boardDTO {
-	String userName, boardCategory, title, createAt;
+	String userid, boardCategory, title, createAt;
 	int boardCount, boardLike;
 	String boardContent, attachment;
 	
-	public String getUserName() {
-		return userName;
+	public String getUserid() {
+		return userid;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 	public String getBoardCategory() {
 		return boardCategory;
