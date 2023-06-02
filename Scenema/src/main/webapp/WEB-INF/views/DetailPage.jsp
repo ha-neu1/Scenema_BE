@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -185,10 +187,10 @@ $(document).ready(function() {
 	<div id='imgback' style="background: linear-gradient(to right, rgba(20, 20, 20, 1) 20%,
 		rgba(20, 20, 20, 0.75) 35%, rgba(20, 20, 20, 0.7) 50%,
 		rgba(20, 20, 20, 0.75) 65%, rgba(20, 20, 20, 1) 100%),
-		url('${mainstillcut}'); background-size: cover;" >
+		url('${stillcuts[0]}'); background-size: cover;" >
 		<div id='imgs'>
 			<div id="poster" style="width: 300px; height: 450px;">
-				<img src="${mainposter}"
+				<img src="${posters[0]}"
 					style="width: 300px; height: 390px; border-radius: 10px;">
 				<button>현재 상영 중</button>
 			</div>
@@ -212,9 +214,8 @@ $(document).ready(function() {
 					<div style="width: 160px; height: 80px;">
 						<h1 style="font-size: 15px; margin-bottom: 5px;">누적 리뷰수</h1>
 						<div style="display: flex; align-items: center; margin: 10px 0px;">
-							<img src="resources/detail_imgs/customer-review.png"
-								style="width: 24px; height: 24px;"> <span
-								style="font-size: 30px; color: white; margin-left: 10px;">8,335</span>
+							<img src="resources/detail_imgs/customer-review.png" style="width: 24px; height: 24px;">
+							<span style="font-size: 30px; color: white; margin-left: 10px;">8,335</span>
 						</div>
 					</div>
 				</div>
@@ -250,32 +251,21 @@ $(document).ready(function() {
 					<div class="slider" style='margin-top: 15px; height:670px;'>
 					    <div class="slides">
 					        <div class="active">
-					        	<p>티저 트레일러(1/5)</p>
-					        	<video controls><source src="/Scenema/Scenema_images/movie1/movie1_v1.mp4" type="video/mp4"></video>
+					        	<p>트레일러(1/${fn:length(videos)})</p>
+					        	<video controls><source src="${videos[0]}" type="video/mp4"></video>
 					        </div>
-					        <div> 
-					        	<p>메인 트레일러(2/5)</p>
-						        <video controls> <source src="/Scenema/Scenema_images/movie1/movie1_v2.mp4" type="video/mp4"> </video>
-					        </div>
-					        <div> 
-					        	<p>'돌아온 가디언즈' 30초 예고편(3/5)</p>
-						        <video controls> <source src="/Scenema/Scenema_images/movie1/movie1_v3.mp4" type="video/mp4"> </video>
-					        </div>
-					        <div> 
-					        	<p>Team '가디언즈'가 맞설 마지막 미션!(4/5)</p>
-						        <video controls> <source src="/Scenema/Scenema_images/movie1/movie1_v4.mp4" type="video/mp4"> </video>
-					        </div>
-					        <div> 
-					        	<p>전 세계 최초 개봉! 전 포맷 예매 오픈!(5/5)</p>
-						        <video controls> <source src="/Scenema/Scenema_images/movie1/movie1_v5.mp4" type="video/mp4"> </video>
-					        </div>
+					       	<c:forEach items="${videos}" var="video" varStatus="vs" begin="1">
+						        <div> 
+						        	<p>트레일러(${vs.index+1}/${fn:length(videos)})</p>
+							        <video controls> <source src="${videos[vs.index]}" type="video/mp4"> </video>
+						        </div>
+					       	</c:forEach>
 					    </div><!-- video slides -->
 					    <div class="page-btns" style="display :none;">
 					        <div class="active"></div>
-					        <div></div>
-					        <div></div>
-					        <div></div>
-					        <div></div>
+					        <c:forEach items="${videos}" var="video" varStatus="vs" begin="1">
+						        <div></div>
+					       	</c:forEach>
 					    </div><!-- page-btns -->
 					    <div class="side-btns" >
 					        <div style="height:53px">
