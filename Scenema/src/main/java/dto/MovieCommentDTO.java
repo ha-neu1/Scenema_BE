@@ -1,6 +1,6 @@
 package dto;
 
-public class movieCommentDTO {
+public class MovieCommentDTO {
 	String userid;
 	int scope;
 	String createAt, contents;

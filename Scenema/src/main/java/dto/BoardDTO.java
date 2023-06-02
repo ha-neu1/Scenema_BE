@@ -1,6 +1,6 @@
 package dto;
 
-public class boardDTO {
+public class BoardDTO {
 	String userid, boardCategory, title, createAt;
 	int boardCount, boardLike;
 	String boardContent, attachment;
