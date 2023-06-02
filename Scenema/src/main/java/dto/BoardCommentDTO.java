@@ -1,6 +1,6 @@
 package dto;
 
-public class boardCommentDTO {
+public class BoardCommentDTO {
 	String userid, bcCreateAt, contents;
 
 	public String getUserid() {
