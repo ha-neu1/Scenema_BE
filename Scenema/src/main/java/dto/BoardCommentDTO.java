@@ -28,4 +28,8 @@ public class BoardCommentDTO {
 	}
 	
 	
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> branch 'main' of https://github.com/ha-neu1/Scenema_BE.git
