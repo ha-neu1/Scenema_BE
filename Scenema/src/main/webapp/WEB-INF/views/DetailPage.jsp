@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -9,6 +10,7 @@
 <link href="resources/css/DetailPage.css" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 <script src="resources/js/jquery-3.6.4.min.js"></script>
 <script>
 $(document).ready(function() {
@@ -126,7 +128,7 @@ $(document).ready(function() {
 	$('#comment_write').click(function(){
 		//관람평 내용 불러오기
 		let txtbox = $('#txtbox');
-		let review = txtbox.val();
+		let review = txtbox.val(); //관람평내용
 		
 		if(review == ""){
 			alert("관람평을 작성해 주세요.");
@@ -135,38 +137,37 @@ $(document).ready(function() {
 			txtbox.val("");
 			$('#txtlen').html("(0 / 200)");
 			
-			//평점 불러오기
-			let score = $('#score').val()*2;
-			let starScore = "style='width:"+(score*10)+"'%";
-			
-			//현재 작성일 불러오기
-			let now = new Date();
-			let year= now.getFullYear();
-			let mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
-			let day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
-			let nowDate = year + '-' + mon + '-' + day;
-			
-			//div 삽입
-			let inputdiv = 
-			`<div class="cmt">
-				<span>새로운작성자</span>
-				<span><span class="cmt_star1">★★★★★<span class="cmt_star2" `+starScore+`>★★★★★</span></span><span class='cmt_score'>`+score+`</span></span>
-				<span><span>`+review+`</span></span>
-				<span>`+nowDate+`</span>
-				<span><button class="delete_btn"><span class="material-symbols-sharp">delete</span></button></span>
-			</div>`; 
-			
-			$('#cmt_list').prepend(inputdiv);
-			
-			//관람평 삭제 버튼 클릭이벤트 등록
-			$('.delete_btn').click(function(){
-				$(this).parent().parent().remove();
-			})
-		}
+			//MovieComment db저장하기
+			$.ajax({
+				url:'commentinsert',
+				data: {
+					'movieid':${movie.movieid},
+					'userid':'java3', //★추후 로그인한 회원 아이디값으로 변경 필요★
+					'score': $('#score').val()*2,
+					'contents':review
+				},
+				type:'get',
+				dataType:'json',
+				success:function(res){
+					$('#cmt_list').load(location.href+' #cmt_list');
+					$('#cmts_cnt').load(location.href+' #cmts_cnt');
+					$('#titleBottom').load(location.href+' #titleBottom');
+					$('#page_btns').load(location.href+' #page_btns');
+				},
+				error:function(request,status,e){
+					alert("코드="+request.status+"\n메시지="+request.responseText+"\nerror="+e);
+				}
+			}); //ajax
+		}//else
 	});
 	
 	//관람평 삭제 버튼 클릭이벤트 등록
-	$('.good_btn').click(function(){
+	$('#cmt_list').on('click','button[class=delete_btn]',function(){
+		let deleteid = $(this).attr('id');
+	})
+	
+	//관람평 좋아요 버튼 클릭이벤트 등록
+	$('#cmt_list').on('click','button[class=good_btn]',function(){
 		if($(this).css('color')=='rgb(255, 115, 34)'){
 			$(this).children('span').css('font-variation-settings',"'FILL' 0, 'wght' 400,'GRAD' 0,'opsz' 40");
 			$(this).css('color','lightgrey');
@@ -208,14 +209,14 @@ $(document).ready(function() {
 						<h1 style="font-size: 15px; margin-bottom: 5px;">실관람 평점</h1>
 						<div style="display: flex; align-items: center; margin: 10px 0px;">
 							<img src="resources/detail_imgs/star_orange.png" style="width: 24px; height: 24px;">
-							<span style="font-size: 30px; color: #FF7322; margin-left: 5px;">${movie.score}</span>
+							<span style="font-size: 30px; color: #FF7322; margin-left: 5px;">${movieScore}</span>
 						</div>
 					</div>
 					<div style="width: 160px; height: 80px;">
 						<h1 style="font-size: 15px; margin-bottom: 5px;">누적 리뷰수</h1>
 						<div style="display: flex; align-items: center; margin: 10px 0px;">
 							<img src="resources/detail_imgs/customer-review.png" style="width: 24px; height: 24px;">
-							<span style="font-size: 30px; color: white; margin-left: 10px;">8,335</span>
+							<div id="review_cnt" style="font-size: 30px; color: white; margin-left: 10px; width:50px">${commentsCount}</div>
 						</div>
 					</div>
 				</div>
@@ -254,6 +255,7 @@ $(document).ready(function() {
 					        	<p>트레일러(1/${fn:length(videos)})</p>
 					        	<video controls><source src="${videos[0]}" type="video/mp4"></video>
 					        </div>
+					        <!-- 비디오 슬라이드 반복문 -->
 					       	<c:forEach items="${videos}" var="video" varStatus="vs" begin="1">
 						        <div> 
 						        	<p>트레일러(${vs.index+1}/${fn:length(videos)})</p>
@@ -281,12 +283,17 @@ $(document).ready(function() {
 					<p style='font-size: 18px; display: inline'>⧉ 포스터·스틸컷</p>
 					<div class="slider" style='margin-top: 15px; border:1px solid lightgrey;'>
 						<div class="slides">
-							<div class="active"	style="background-image: url(/Scenema/Scenema_images/movie1/movie1_01.jpg); background-size: contain"></div>
-							<div style="background-image: url(/Scenema/Scenema_images/movie1/movie1_02.jpg); background-size: contain"></div>
+							<div class="active"	style="background-image: url('${posters[0]}'); background-size: contain"></div>
+							<!-- 이미지 슬라이드 반복문 -->
+							<c:forEach items="${posters}" var="video" varStatus="vs" begin="1">
+								<div style="background-image: url('${posters[vs.index]}'); background-size: contain"></div>
+							</c:forEach>
 						</div>
 						<div class="page-btns">
 							<div class="active"></div>
-							<div></div>
+							<c:forEach items="${posters}" var="video" varStatus="vs" begin="1">
+						        <div></div>
+					       	</c:forEach>
 						</div>
 						<div class="side-btns">
 							<div>
@@ -303,14 +310,15 @@ $(document).ready(function() {
 			<div class='detail_divs' id='detail_div2'>
 				<p style='font-size: 18px; margin-top: 30px; text-align: center;'>
 					평점·관람평 작성</p>
-					
+				<!-- rating_box -->	
 				<div class="rating_box">
 					<div class="rating"> ★★★★★ <span class="rating_star">★★★★★</span>
 						<input id='score' type="range"	step="0.5" min="0.5" max="5" value="5">
 					</div>
 					<div class="rating_txt">10</div>
-				</div><!-- rating_box -->
+				</div>
 				
+				<!-- writing_box -->
 				<div class="writing_box">
 					<div>
 						<textarea id='txtbox' placeholder="평점 및 영화 관람평을 작성해 주세요. 평점은 마우스 드래그 및 클릭을 통해 변경 가능합니다.&#10;권리침해, 욕설 및 특정 대상을 비하하는 내용을 게시할 경우 해당 게시글은 무통보 삭제되며 이용약관 및 법률에 의해 처벌될 수 있습니다."></textarea>
@@ -319,6 +327,7 @@ $(document).ready(function() {
 					<button id='comment_write'> 관람평 작성 </button>
 				</div><!-- writing_box -->
 				
+				<!-- comment_box -->
 				<div class="comment_box">
 					<p> 
 						<span>
@@ -326,22 +335,42 @@ $(document).ready(function() {
 							<span>관람객 관람평</span>
 						</span>
 						<span>
-							<span style="padding-right:5px">총 8,335건</span>
+							<span style="padding-right:5px" id="cmts_cnt">총 ${commentsCount}건</span>
 							<span style="border-left:1px solid lightgrey; padding-left:5px">최신순</span>
 						</span>
 					</p>
 					
 					<div id=cmt_list>
-						<div class="cmt">
-							<span>기존작성자</span>
-							<span><span class="cmt_star1">★★★★★ <span class="cmt_star2" style="width:100%">★★★★★</span></span><span class='cmt_score'>10</span></span>
-							<span><span>최고의 영화!</span></span>
-							<span>2023-05-08</span>
-							<span><button class="good_btn"><span class="material-symbols-sharp">thumb_up</span></button></span>
-						</div>
+						<c:forEach items="${comments}" var="comment" varStatus="vs">
+							<div class="cmt" id='${comment.movieCommentid}'>
+								<span>${comment.userid}</span>
+								<span><span class="cmt_star1">★★★★★<span class="cmt_star2" style="width:${comment.score*10}%">★★★★★</span></span><span class='cmt_score'>${comment.score}</span></span>
+								<span><span>${comment.contents}</span></span>
+								<span><span>${comment.createAt}</span></span>
+								<c:if test="${comment.userid == 'spring3'}">
+									<span><button class="delete_btn"><span class="material-symbols-sharp">delete</span></button></span>
+								</c:if>
+								<c:if test="${comment.userid != 'spring3'}">
+									<span><button class="good_btn"><span class="material-symbols-sharp">thumb_up</span></button></span>
+								</c:if>
+							</div>
+						</c:forEach>
 					</div><!-- cmt_list -->
 				
 				</div><!-- comment_box -->
+				
+				<div id="page_btns">
+					<button class='pagebtn'><span class="material-symbols-outlined">keyboard_double_arrow_left</span></button>
+					<button class='pagebtn'><span class="material-symbols-outlined">keyboard_arrow_left</span></button>
+					<c:forEach begin="1" end="${commentsCount%10!=0?commentsCount/10+1:commentsCount/10}" varStatus="vs">
+						<c:if test="${vs.count<=10}">
+							<button class='pagebtn'>${vs.count}</button>
+						</c:if>
+					</c:forEach>
+					<button class='pagebtn'><span class="material-symbols-outlined">keyboard_arrow_right</span></button>
+					<button class='pagebtn'><span class="material-symbols-outlined">keyboard_double_arrow_right</span></button>
+				</div>
+				
 			</div>	<!-- div2 -->
 		</div><!-- div1 / 2 영역 -->
 	</div><!-- 세부영역 -->
