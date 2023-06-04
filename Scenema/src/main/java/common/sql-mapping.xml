@@ -3,4 +3,9 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="a">
 
+<insert id="boardWriting" parameterType="boarddto">
+	insert into board( boardCategory, title, boardContent, attachment)
+	values( #{boardCategory}, #{title}, #{boardContent}, #{attachment})
+</insert>
+
 </mapper>

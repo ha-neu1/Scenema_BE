@@ -2,7 +2,7 @@ package dto;
 
 public class BoardDTO {
 	String userid, boardCategory, title, createAt;
-	int boardCount, boardLike;
+	int boardCount, boardLike, seq;
 	String boardContent, attachment;
 	
 	public String getUserid() {
