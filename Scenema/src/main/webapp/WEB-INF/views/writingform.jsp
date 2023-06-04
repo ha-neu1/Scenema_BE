@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +10,7 @@
 <title>Scenema 커뮤니티 글쓰기</title>
 <script src="resources/js/jquery-3.6.4.min.js"></script>
 <script src="resources/SmartEditor/js/service/HuskyEZCreator.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function(){
         var oEditors = [];
@@ -65,7 +68,7 @@
 </script>
 </head>
 <body>
-</body>
+<%@ include file="Header.jsp" %>
 <form action="writingboard" method=post>
 	<div id="board">
 		<div>
@@ -96,5 +99,6 @@
 		</div>
 	</div>
 </form>
-
+</body>
+<%@ include file="Footer.jsp" %>
 </html>
