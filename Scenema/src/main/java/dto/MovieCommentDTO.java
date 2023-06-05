@@ -1,23 +1,35 @@
 package dto;
 
 public class MovieCommentDTO {
+	int movieCommentid;
 	String userid;
-	int scope;
+	int movieid,score;
 	String createAt, contents;
 	int like;
 	
-	
+	public int getMovieCommentid() {
+		return movieCommentid;
+	}
+	public void setMovieCommentid(int movieCommentid) {
+		this.movieCommentid = movieCommentid;
+	}
+	public int getMovieid() {
+		return movieid;
+	}
+	public void setMovieid(int movieid) {
+		this.movieid = movieid;
+	}
 	public String getUserid() {
 		return userid;
 	}
 	public void setUserid(String userid) {
 		this.userid = userid;
 	}
-	public int getScope() {
-		return scope;
+	public int getScore() {
+		return score;
 	}
-	public void setScope(int scope) {
-		this.scope = scope;
+	public void setScore(int score) {
+		this.score = score;
 	}
 	public String getCreateAt() {
 		return createAt;
