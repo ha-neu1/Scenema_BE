@@ -31,11 +31,11 @@ public class DetailController {
 			@RequestParam(value="page", required=false, defaultValue="1" ) int page) {
 		MovieDTO dto = service.getMovieFromID(movieid);
 		
-		//í¬ìŠ¤í„° ë° ìŠ¤í‹¸ì»· í•˜ë‚˜ì”© ë³„ë„ ë¶„ë¦¬
+		//Æ÷½ºÅÍ ¹× ½ºÆ¿ÄÆ ÇÏ³ª¾¿ º°µµ ºĞ¸®
 		String posters [] = dto.getPosterurl().split("\\|");
 		String stillcuts [] = dto.getStillcuturls().split("\\|");
 		
-		//Viewì— ë³´ì¼ ë‚ ì§œ í˜•ì‹ ë°”ê¾¸ê¸°
+		//View¿¡ º¸ÀÏ ³¯Â¥ Çü½Ä ¹Ù²Ù±â
 		String year = dto.getReleaseDate().substring(0, 4);
 		String month = dto.getReleaseDate().substring(4, 6);
 		String day = dto.getReleaseDate().substring(6, 8);
@@ -57,15 +57,15 @@ public class DetailController {
 		List<MovieCommentDTO> comments = null;
 		
 		if(service_c.getCommentsCount(movieid)!=0) {
-			//ì˜í™” í‰ì 
+			//¿µÈ­ ÆòÁ¡
 			if(service_c.getMovieScore(movieid)==10) {
 				movieScore = String.format("%.0f",service_c.getMovieScore(movieid));
 			}else {
 				movieScore = String.format("%.1f",service_c.getMovieScore(movieid));
 			}
 			
-			//ì˜í™” í‰ì ëŒ“ê¸€
-			commentsCount = service_c.getCommentsCount(movieid); //ì „ì²´ ì˜í™” ëŒ“ê¸€ ê°œìˆ˜
+			//¿µÈ­ ÆòÁ¡´ñ±Û
+			commentsCount = service_c.getCommentsCount(movieid); //ÀüÃ¼ ¿µÈ­ ´ñ±Û °³¼ö
 			maxpage = commentsCount%10!=0?commentsCount/10+1:commentsCount%10;
 		
 			HashMap<String, Integer> cmtmap = new HashMap<String, Integer>();
@@ -73,8 +73,8 @@ public class DetailController {
 			cmtmap.put("page",(page-1)*10);
 			cmtmap.put("limit",10);
 		
-			comments = service_c.getPagingComments(cmtmap); // ëŒ“ê¸€ ë¦¬ìŠ¤íŠ¸(page=1)
-			//ëŒ“ê¸€ ì‹œê°„ë³€ê²½
+			comments = service_c.getPagingComments(cmtmap); // ´ñ±Û ¸®½ºÆ®(page=1)
+			//´ñ±Û ½Ã°£º¯°æ
 			for(MovieCommentDTO cmts : comments) {
 				String str = cmts.getCreateAt();
 				str = str.substring(0,str.lastIndexOf(" "));
@@ -82,7 +82,7 @@ public class DetailController {
 			}
 		}
 		
-		//ModelAndView ê°ì²´
+		//ModelAndView °´Ã¼
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("movie",dto);
 		mv.addObject("posters", posters);
@@ -99,7 +99,7 @@ public class DetailController {
 		return mv;
 	}
 	
-	//í‰ì ëŒ“ê¸€ ì‘ì„±
+	//ÆòÁ¡´ñ±Û ÀÛ¼º
 	@RequestMapping(value="/commentinsert", produces = {"application/json;charset=utf-8"})
 	public @ResponseBody List<MovieCommentDTO> detailComment(int movieid, String userid, int score, String contents) {
 		MovieCommentDTO dto = new MovieCommentDTO();
@@ -115,34 +115,34 @@ public class DetailController {
 		return comments_new;
 	}
 	
-	//í‰ì ëŒ“ê¸€ í˜ì´ì§•ì²˜ë¦¬
+	//ÆòÁ¡´ñ±Û ÆäÀÌÂ¡Ã³¸®
 	@RequestMapping(value="/commentpaging", produces = {"application/json;charset=utf-8"})
 	public @ResponseBody String detailComment(int movieid, int page) {
 		return "{\"page\":"+page+"}";
 	}
 	
-	//í‰ì ëŒ“ê¸€ ì‚­ì œ
+	//ÆòÁ¡´ñ±Û »èÁ¦
 	@RequestMapping(value="/commentdelete", produces = {"application/json;charset=utf-8"})
 	public String deleteComment(int movieid, int moviecommentid) {
 		service_c.deleteComment(moviecommentid);
 		return "redirect:/detailpage?movieid="+movieid;
 	}
 
-	//í‰ì ëŒ“ê¸€ ì¢‹ì•„ìš” +1
+	//ÆòÁ¡´ñ±Û ÁÁ¾Æ¿ä +1
 	@RequestMapping(value="/likeup", produces = {"application/json;charset=utf-8"})
 	public String commentLikeUp(int movieid, int moviecommentid) {
 		service_c.updateLikeUp(moviecommentid);
 		return "redirect:/detailpage?movieid="+movieid;
 	}
 
-	//í‰ì ëŒ“ê¸€ ì¢‹ì•„ìš”ì·¨ì†Œ -1
+	//ÆòÁ¡´ñ±Û ÁÁ¾Æ¿äÃë¼Ò -1
 	@RequestMapping(value="/likedown", produces = {"application/json;charset=utf-8"})
 	public String commentLikeDown(int movieid, int moviecommentid) {
 		service_c.updateLikeDown(moviecommentid);
 		return "redirect:/detailpage?movieid="+movieid;
 	}
 
-	//ë™ì˜ìƒ url ë³€í™˜ìš© ë©”ì„œë“œ - ì¶”í›„ dbìˆ˜ì •
+	//µ¿¿µ»ó url º¯È¯¿ë ¸Ş¼­µå - ÃßÈÄ db¼öÁ¤
     public static String videourl(String videourl) {
     	String pageContents = "";
     	StringBuilder contents = new StringBuilder();

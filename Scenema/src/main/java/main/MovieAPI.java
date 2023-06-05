@@ -16,11 +16,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
  
 public class MovieAPI {
-    // ìƒìˆ˜ ì„¤ì • - ìš”ì²­(Request) ìš”ì²­ ë³€ìˆ˜
+    // »ó¼ö ¼³Á¤ - ¿äÃ»(Request) ¿äÃ» º¯¼ö
     private final String REQUEST_URL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json";
     private final String AUTH_KEY = "12d3990ca0efc626624eb0ddf4269a36";
  
-    // ì¼ì í¬ë§·(í•˜ë£¨ ì „)
+    // ÀÏÀÚ Æ÷¸Ë(ÇÏ·ç Àü)
     private final SimpleDateFormat DATE_FMT = new SimpleDateFormat("yyyyMMdd");
  
     // Map -> QueryString
@@ -36,30 +36,30 @@ public class MovieAPI {
         return sb.toString();
     }
  
-    // APIìš”ì²­
+    // API¿äÃ»
     public String requestAPI() {
-        // ë³€ìˆ˜ì„¤ì • - í•˜ë£¨ì „ ë‚ ì§œ
+        // º¯¼ö¼³Á¤ - ÇÏ·çÀü ³¯Â¥
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.add(Calendar.DATE, -1);
         String result = "";
  
-        // ë³€ìˆ˜ ì„¤ì • - ìš”ì²­(Request) ì¸í„°í˜ì´ìŠ¤ Map
+        // º¯¼ö ¼³Á¤ - ¿äÃ»(Request) ÀÎÅÍÆäÀÌ½º Map
         Map<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put("key"          , AUTH_KEY);                        // ë°œê¸‰ë°›ì€ ì¸ì¦í‚¤
-        paramMap.put("targetDt"     , DATE_FMT.format(cal.getTime()));  // ì¡°íšŒí•˜ê³ ì í•˜ëŠ” ë‚ ì§œ
-        paramMap.put("itemPerPage"  , "10");                            // ê²°ê³¼ ROW ì˜ ê°œìˆ˜( ìµœëŒ€ 10ê°œ )
+        paramMap.put("key"          , AUTH_KEY);                        // ¹ß±Ş¹ŞÀº ÀÎÁõÅ°
+        paramMap.put("targetDt"     , DATE_FMT.format(cal.getTime()));  // Á¶È¸ÇÏ°íÀÚ ÇÏ´Â ³¯Â¥
+        paramMap.put("itemPerPage"  , "10");                            // °á°ú ROW ÀÇ °³¼ö( ÃÖ´ë 10°³ )
  
         try {
-            // Request URL ì—°ê²° ê°ì²´ ìƒì„±
+            // Request URL ¿¬°á °´Ã¼ »ı¼º
             URL requestURL = new URL(REQUEST_URL+"?"+makeQueryString(paramMap));
             HttpURLConnection conn = (HttpURLConnection) requestURL.openConnection();
  
-            // GET ë°©ì‹ìœ¼ë¡œ ìš”ì²­
+            // GET ¹æ½ÄÀ¸·Î ¿äÃ»
             conn.setRequestMethod("GET");
             conn.setDoInput(true);
  
-            // ì‘ë‹µ(Response) êµ¬ì¡° ì‘ì„±
+            // ÀÀ´ä(Response) ±¸Á¶ ÀÛ¼º
             //   - Stream -> JSONObject
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
             String readline = null;
@@ -68,16 +68,16 @@ public class MovieAPI {
                 response.append(readline);
             }
  
-            // JSON ê°ì²´ë¡œ  ë³€í™˜
+            // JSON °´Ã¼·Î  º¯È¯
             JSONObject responseBody = new JSONObject(response.toString());
  
-            // ë°ì´í„° ì¶”ì¶œ
+            // µ¥ÀÌÅÍ ÃßÃâ
             JSONObject boxOfficeResult = responseBody.getJSONObject("boxOfficeResult");
  
-            // ë°•ìŠ¤ì˜¤í”¼ìŠ¤ ì£¼ì œ ì¶œë ¥
+            // ¹Ú½º¿ÀÇÇ½º ÁÖÁ¦ Ãâ·Â
             String boxofficeType = boxOfficeResult.getString("boxofficeType");
  
-            // ë°•ìŠ¤ì˜¤í”¼ìŠ¤ ëª©ë¡ ì¶œë ¥
+            // ¹Ú½º¿ÀÇÇ½º ¸ñ·Ï Ãâ·Â
             JSONArray dailyBoxOfficeList = boxOfficeResult.getJSONArray("dailyBoxOfficeList");
             Iterator<Object> iter = dailyBoxOfficeList.iterator();
             while(iter.hasNext()) {
