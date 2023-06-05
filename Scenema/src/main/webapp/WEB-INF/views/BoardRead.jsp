@@ -34,35 +34,53 @@
         </div>
             <div class="board_view">
                 <div class="title">
-                    가디언즈는 내 가슴 속 영원히... 줍줍...
+                    ${board.title}
                 </div>
                 <div class="info">
                     <dl>
                         <dt>작성자</dt>
-                        <dd>주모경</dd>
+                        <dd>${board.userid}</dd>
                     </dl>
                     <dl>
                         <dt>작성일</dt>
-                        <dd>23.05.10</dd>
+                        <dd>${board.createAt}</dd>
                     </dl>
                     <dl>
                         <dt>조회수</dt>
-                        <dd>11</dd>
+                        <dd>${board.boardCount}</dd>
                     </dl>
                     <dl>
                         <dt>좋아요</dt>
-                        <dd>0</dd>
+                        <dd>${board.boardLike}</dd>
                     </dl>
                 </div>
                 <div class="cont">
-                    티프스, 라일라, 플로어 그리고 로켓이 다같이 모여 천장을 바라보며 푸른 하늘을 꿈꾸던 장면이 머리에서 잊혀지질 않아요..ㅠ
+                    ${board.boardContent}
                 </div>
             </div>
             <div class="bt_wrap">
-                <a href="boardList.html" class="on">목록보기</a>
+                <a href="/boardList" class="on">목록보기</a>
                 <a href="BoardWriting.html">새글쓰기</a>
                 <a>좋아요</a>
             </div>
+            
+            
+    <div class="comment-in">
+    <input type="text" placeholder="댓글을 남겨주세요." autocomplete="off"
+    id="input-comment"/>
+    <button onclick="addComment()" id="addComment">댓글 추가</button>
+    </div>
+ 
+    <c:forEach var="comment" items="${comments}">
+    <div id="comment-list">
+        <div id="item-1" class="item">
+        	<span id="cmtName-1">${comment.userid}</span>
+        	<span id="cmt-date">${comment.bcCreateAt}</span>
+            <span id="comment-1">${comment.contents}</span>
+        </div>
+    </div>
+    </c:forEach>
+        
         </div>
 </body>
 </html>

@@ -9,4 +9,13 @@
     <select id="getBoardById" resultType="BoardDTO">
         SELECT * FROM board WHERE boardid = #{boardid};
     </select>
+    
+    <select id="getCommentsByBoardId" resultType="BoardCommentDTO">
+        SELECT * FROM comment WHERE boardid = #{boardid};
+    </select>
+
+    <insert id="insertBoardComment" parameterType="BoardCommentDTO">
+        INSERT INTO comment (board_id, userid, bcCreateAt, contents)
+        VALUES (#{boardid}, #{userid}, #{bcCreateAt}, #{contents});
+    </insert>
 </mapper>
