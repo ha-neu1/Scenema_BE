@@ -85,7 +85,8 @@
 	</div>
 
 	<div class="products">
-		<p id="boxtitle" style="border-width:0px; margin:15px auto; margin-top:30px;">실시간 일일 박스오피스 Top10</p>
+		<p id="boxtitle" style="border-width:0px; margin:15px auto; margin-top:30px; font-size: 40px;">
+			일일 박스오피스 <span style="color:#FF7322;">Top10</span></p>
 		<p>*전일 기준</p>
 		<div class='products_box'>
 			<c:forEach items="${boxofficelist}" var="list" varStatus="vs" end="4" >
@@ -94,16 +95,18 @@
 					<a href="detailpage?movieid=${boxofficelist[vs.index].movieid}"> 
 						<span><img src="${boxofficelist[vs.index].posterurl}"></span>
 					</a>
+					<p class="title">${boxofficelist[vs.index].title}<p>
 				</div>
 			</c:forEach>
 		</div>
 		<div class='products_box'>
 			<c:forEach items="${boxofficelist}" var="list" varStatus="vs" begin="5" >
 				<div class="image-container">
-					<p>${vs.index+1}<p>
+					<p class="rank">${vs.index+1}<p>
 					<a href="detailpage?movieid=${boxofficelist[vs.index].movieid}"> 
 						<span><img src="${boxofficelist[vs.index].posterurl}"></span>
 					</a>
+					<p class="title">${boxofficelist[vs.index].title}<p>
 				</div>
 			</c:forEach>
 		</div>

@@ -42,11 +42,14 @@ public class DetailController {
 		dto.setReleaseDate(year+"."+month+"."+day);
 		
 		//Video url
-		String newVideoUrls = videourl(dto.getVideourl());
+		String newVideoUrls = dto.getVideourl();
+		if(dto.getVideourl().contains("www.kmdb.or.kr/db/kor/detail/movie")) {
+			newVideoUrls = videourl(dto.getVideourl());
+		}
 		String newVideos [] = newVideoUrls.split("\\|");
 		
 		
-		double movieScore = 0;
+		String movieScore = "0";
 		int commentsCount = 0;
 		int pageblock = page/10;
 		int maxpage = 0;
@@ -55,8 +58,11 @@ public class DetailController {
 		
 		if(service_c.getCommentsCount(movieid)!=0) {
 			//영화 평점
-			movieScore = service_c.getMovieScore(movieid);
-			movieScore = Double.parseDouble(String.format("%.1f",movieScore));
+			if(service_c.getMovieScore(movieid)==10) {
+				movieScore = String.format("%.0f",service_c.getMovieScore(movieid));
+			}else {
+				movieScore = String.format("%.1f",service_c.getMovieScore(movieid));
+			}
 			
 			//영화 평점댓글
 			commentsCount = service_c.getCommentsCount(movieid); //전체 영화 댓글 개수
@@ -68,13 +74,12 @@ public class DetailController {
 			cmtmap.put("limit",10);
 		
 			comments = service_c.getPagingComments(cmtmap); // 댓글 리스트(page=1)
-		}
-		
-		//댓글 시간변경
-		for(MovieCommentDTO cmts : comments) {
-			String str = cmts.getCreateAt();
-			str = str.substring(0,str.lastIndexOf(" "));
-			cmts.setCreateAt(str);
+			//댓글 시간변경
+			for(MovieCommentDTO cmts : comments) {
+				String str = cmts.getCreateAt();
+				str = str.substring(0,str.lastIndexOf(" "));
+				cmts.setCreateAt(str);
+			}
 		}
 		
 		//ModelAndView 객체

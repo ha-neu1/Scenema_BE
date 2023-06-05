@@ -52,7 +52,7 @@ header {
 
 .menu_in>a {
 	width: 130px; height: 30px;
-	color: black; font-size: 16px;
+	color: black; font-size: 18px;
 	text-decoration: none; text-align: center;
 	line-height: 30px;
 	border: solid 5px transparent;
@@ -68,12 +68,12 @@ header {
 </head>
 <body>
 	<header id='header'>
-		<div>
+		<div >
 			<nav id='headlinks'>
 				<a href="login.jsp">로그인</a> <a href="signUp.jsp">회원가입</a>
 			</nav>
 			<h1 id=logo
-				style="margin-top: 0px; margin-bottom: 10px; text-align: center">SCENEMA</h1>
+				style="margin-top: 0px; margin-bottom: 30px; text-align: center; font-size: 45px">SCENEMA</h1>
 		</div>
 
 		<nav id='menu' class='menu'>

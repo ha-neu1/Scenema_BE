@@ -152,6 +152,7 @@ $(document).ready(function() {
 					$('#cmt_list').load(location.href+' #cmt_list');
 					$('#cmts_cnt').load(location.href+' #cmts_cnt');
 					$('#titleBottom').load(location.href+' #titleBottom');
+					$('#page_btns_box').load(location.href+' #page_btns_box');
 				},
 				error:function(request,status,e){
 					alert("코드="+request.status+"\n메시지="+request.responseText+"\nerror="+e);
@@ -358,6 +359,7 @@ $(document).ready(function() {
 					style='font-size: 15px; display: inline; margin-left: 10px; padding-left: 10px; border-left: 1px solid lightgrey;'>
 					상영시간 : ${movie.runtime}분</p>
 				<p style='font-size: 15px; margin: 7px 0px;'>◦ 감독 : ${movie.director}</p>
+				<p style='font-size: 15px; margin: 7px 0px;'>◦ 등급 : ${movie.rating}</p>
 
 				<div id='videoDiv;' style='margin-top: 40px;'>
 					<p style='font-size: 18px; display: inline'>⧉ 트레일러</p>
@@ -418,7 +420,7 @@ $(document).ready(function() {
 					</div>
 				</div><!-- imgdiv -->
 			</div><!-- div1 -->
-
+			
 			<div class='detail_divs' id='detail_div2'>
 				<p style='font-size: 18px; margin-top: 30px; text-align: center;'>
 					평점·관람평 작성</p>
@@ -453,6 +455,11 @@ $(document).ready(function() {
 					</p>
 					
 					<div id=cmt_list>
+						<c:if test="${empty comments}">
+							<p style="width:100%; height:100px; line-height: 100px; color: #FF7322; text-align:center; font-size:25px;">
+							작성된 관람평이 없습니다. 첫 관람평을 작성해 주세요! </p>
+						</c:if>
+					
 						<c:forEach items="${comments}" var="comment" varStatus="vs">
 							<div class="cmt" id='${comment.movieCommentid}'>
 								<span>${comment.userid}</span>
