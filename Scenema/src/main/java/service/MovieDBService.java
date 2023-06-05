@@ -19,4 +19,7 @@ public class MovieDBService {
 		return dao.getMovieFromID(movieid);
 	}
 	
+	public MovieDTO getMovieFromTitle(String title) {
+		return dao.getMovieFromTitle(title);
+	}
 }

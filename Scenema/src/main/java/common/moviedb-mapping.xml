@@ -17,4 +17,8 @@
 		select * from moviedb where movieid = #{movieid}
 	</select>
 	
+	<select id="getMovieFromTitle" parameterType="String" resultType="dto.MovieDTO">
+		select * from moviedb where replace(title,' ','') = replace(#{title},' ','');
+	</select>
+	
 </mapper>

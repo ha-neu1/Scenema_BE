@@ -45,21 +45,30 @@ public class DetailController {
 		String newVideoUrls = videourl(dto.getVideourl());
 		String newVideos [] = newVideoUrls.split("\\|");
 		
-		//영화 평점
-		double movieScore = service_c.getMovieScore(movieid);
-		movieScore = Double.parseDouble(String.format("%.1f",movieScore));
 		
-		//영화 평점댓글
-		int commentsCount = service_c.getCommentsCount(movieid); //전체 영화 댓글 개수
+		double movieScore = 0;
+		int commentsCount = 0;
 		int pageblock = page/10;
-		int maxpage = commentsCount%10!=0?commentsCount/10+1:commentsCount%10;
+		int maxpage = 0;
 		
-		HashMap<String, Integer> cmtmap = new HashMap<String, Integer>();
-		cmtmap.put("movieid", movieid);
-		cmtmap.put("page",(page-1)*10);
-		cmtmap.put("limit",10);
+		List<MovieCommentDTO> comments = null;
 		
-		List<MovieCommentDTO> comments = service_c.getPagingComments(cmtmap); // 댓글 리스트(page=1)
+		if(service_c.getCommentsCount(movieid)!=0) {
+			//영화 평점
+			movieScore = service_c.getMovieScore(movieid);
+			movieScore = Double.parseDouble(String.format("%.1f",movieScore));
+			
+			//영화 평점댓글
+			commentsCount = service_c.getCommentsCount(movieid); //전체 영화 댓글 개수
+			maxpage = commentsCount%10!=0?commentsCount/10+1:commentsCount%10;
+		
+			HashMap<String, Integer> cmtmap = new HashMap<String, Integer>();
+			cmtmap.put("movieid", movieid);
+			cmtmap.put("page",(page-1)*10);
+			cmtmap.put("limit",10);
+		
+			comments = service_c.getPagingComments(cmtmap); // 댓글 리스트(page=1)
+		}
 		
 		//댓글 시간변경
 		for(MovieCommentDTO cmts : comments) {

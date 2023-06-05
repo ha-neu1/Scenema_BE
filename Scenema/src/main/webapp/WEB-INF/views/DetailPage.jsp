@@ -162,7 +162,7 @@ $(document).ready(function() {
 	
 	//관람평 삭제 버튼
 	$('#cmt_list').on('click','button[class=delete_btn]',function(){
-		if(confirm('해당 관람평을 삭제하시겠습니까? \n삭제 후에는 복구할 수 없습니다.'+$(this).parents(".cmt").attr('id'))){
+		if(confirm('해당 관람평을 삭제하시겠습니까? \n삭제 후에는 복구할 수 없습니다.')){
 			//MovieComment 삭제하기
 			$.ajax({
 				url:'commentdelete',
@@ -279,13 +279,14 @@ $(document).ready(function() {
 		$('#page_btns_box').load('/scenema/detailpage?movieid='+${movie.movieid}+'&page='+${maxpage}+' #page_btns_box');
 	});
 
-	/* //다음페이지( > ) 버튼#pageNextbtn
+	//다음페이지( > ) 버튼#pageNextbtn
 	$("#page_btns_box").on('click','#pageNextbtn',function(){
-		let pageint = $('#page_btns_box>.pagebtn_num:first').html();
+		alert($('#page_btns_box>.pagebtn_num:first').html());
+		/* let pageint = $('#page_btns_box>.pagebtn_num:first').html();
 		pageint = Number(pageint)+10;
 		$('#cmt_list').load('/scenema/commentpaging?movieid='+${movie.movieid}+'&page='+pageint+' #cmt_list');
-		$('#page_btns_box').load('/scenema/commentpaging?movieid='+${movie.movieid}+'&page='+pageint+' #page_btns_box');
-	}); */
+		$('#page_btns_box').load('/scenema/commentpaging?movieid='+${movie.movieid}+'&page='+pageint+' #page_btns_box'); */
+	});
 	
 });//end ready
 </script>
@@ -488,6 +489,6 @@ $(document).ready(function() {
 		</div><!-- div1 / 2 영역 -->
 	</div><!-- 세부영역 -->
 
-<%@ include file="Footer.jsp" %>
+	<%@ include file="Footer.jsp" %>
 </body>
 </html>

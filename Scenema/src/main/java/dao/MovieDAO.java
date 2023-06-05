@@ -23,4 +23,8 @@ public class MovieDAO {
 		return session.selectOne("getMovieFromID",movieid);
 	}
 	
+	public MovieDTO getMovieFromTitle(String title) {
+		return session.selectOne("getMovieFromTitle",title);
+	}
+	
 }
