@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="resources/css/Boardstyle.css" rel="stylesheet">
+<link href="resources/css/BoardWriting.css" rel="stylesheet">
 <meta charset="UTF-8">
 <title>Scenema 커뮤니티 글쓰기</title>
 <script src="resources/js/jquery-3.6.4.min.js"></script>
@@ -56,7 +56,8 @@
                     },
                     success : function(){
                         alert("글이 성공적으로 등록되었습니다.");
-                        window.location.href = "boardlist";
+                        window.location.href = "/scenema/boardlist";
+                       
                     },
                     error : function(){
                         console.log("에러발생");
