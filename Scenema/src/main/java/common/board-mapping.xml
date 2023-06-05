@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	<select id="getBoardList" resultType="boarddto">
+        SELECT * FROM board;
+    </select>
+  
+    <select id="getBoardListById" resultType="boarddto">
+        SELECT * FROM board WHERE boardid = #{boardid};
+    </select>
+    
+    <insert id="boardWriting" parameterType="boarddto">
+	insert into board( boardCategory, title, boardContent, attachment)
+	values( #{boardCategory}, #{title}, #{boardContent}, #{attachment})
+	</insert>
+    
+</mapper>

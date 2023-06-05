@@ -27,5 +27,4 @@ public class BoardCommentDTO {
 		this.contents = contents;
 	}
 	
-	
 }

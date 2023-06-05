@@ -79,8 +79,8 @@ header {
 		<nav id='menu' class='menu'>
 			<ul>
 				<li class='menu_in'><a href="/scenema/">홈</a></li>
-				<li class='menu_in'><a href="#">영화</a></li>
-				<li class='menu_in'><a href="#">커뮤니티</a></li>
+				<li class='menu_in'><a href="/scenema/movielist">영화</a></li>
+				<li class='menu_in'><a href="/scenema/boardlist">커뮤니티</a></li>
 				<li class='menu_in'><a href="#">내정보</a></li>
 			</ul>
 		</nav>
