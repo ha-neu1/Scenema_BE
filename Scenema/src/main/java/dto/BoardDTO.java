@@ -1,10 +1,20 @@
 package dto;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class BoardDTO {
+	int boardid;
 	String userid, boardCategory, title, createAt;
 	int boardCount, boardLike;
 	String boardContent, attachment;
 	
+	public int getBoardid() {
+		return boardid;
+	}
+	public void setBoardid(int boardid) {
+		this.boardid = boardid;
+	}
 	public String getUserid() {
 		return userid;
 	}

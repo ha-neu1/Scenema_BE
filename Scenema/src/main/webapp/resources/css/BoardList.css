@@ -1,0 +1,230 @@
+@charset "UTF-8";
+@import url("https://hangeul.pstatic.net/hangeul_static/css/nanum-square-neo.css");
+
+* {font-family: 'NanumSquareNeoBold';}
+
+div {
+	width: 1024px;
+	margin: 0px auto;
+}
+
+header {
+	height: 98px;
+	margin: 10px auto;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#logo {
+	font-family: 'NanumSquareNeoHeavy';
+	height: 40px;
+}
+
+#headlinks {
+	width:1024px;
+	display:flex;
+	justify-content: flex-end;
+}
+
+#headlinks>a {
+	height: 15px; display: inline-block;
+	color: black; font-size: 13px;
+	text-decoration: none; text-align: right;
+	border-bottom: 1px solid transparent;
+	margin-left: 5px;
+}
+
+#headlinks>a:hover { border-bottom: 1px solid black; }
+
+.menu {
+	width: 100%; height: 40px;
+	display: flex; justify-content: center; align-items: center;
+	background-color: white;
+	border-top: solid 1px lightgrey;
+	border-bottom: solid 1px lightgrey;
+	position:relative;
+}
+
+.menu ul, li {
+	list-style: none; float: left;
+	line-height: 35px;
+}
+
+.menu_in>a {
+	width: 130px; height: 30px;
+	color: black; font-size: 16px;
+	text-decoration: none; text-align: center;
+	line-height: 30px;
+	border: solid 5px transparent;
+	display: block;
+	font-family: 'NanumSquareNeoExtraBold';
+}
+
+.menu_in>a:hover {
+	color: #FF7322;
+	border-bottom: solid 5px #FF7322;
+}
+
+.Search_write {
+	height:120px;
+}
+
+.SearchBar {
+	width: 1024px;
+	height: 65px;
+	padding: 20px;
+	margin: 3px auto 0;
+	margin-left: -10px;
+    text-align: left;
+}
+
+.SearchBar > h2 {
+	color:#FF7322;
+}
+
+.SearchInput {
+	width:400px;
+}
+
+#Search {
+	height:20px;
+}
+
+#SearchBtn {
+    border-color: #000;
+    background: #000;
+    border:#000;
+    color: #fff;
+    height:25px;
+}
+
+#SearchBtn:hover {
+	background:#FF7322;
+	border:#FF7322;
+    color: white;
+}
+
+.bt_wrap {
+    margin-left: 461px;
+    margin-top: -28px;
+    text-align: center;
+    font-size: 0;
+}
+
+.bt_wrap a {
+    display: inline-block;
+    min-width: 50px;
+    margin-left: 10px;
+    padding: 7px;
+    border: 1px solid #000;
+    border-radius: 2px;
+    font-size: 12px;
+}
+
+.bt_wrap a.on {
+    background: #000;
+    color: #fff;
+}
+
+.bt_wrap a.on:hover {
+    background-color:#FF7322;
+    border-color:#FF7322;
+    color: white;
+}
+
+.board_list {
+    width: 1024px;
+    border-top: 2px solid #000;
+    margin: 0 auto;
+}
+
+.board_list > div {
+    border-bottom: 1px solid #ddd;
+    font-size: 0;
+}
+
+.board_list > div.top {
+    border-bottom: 1px solid #999;
+}
+
+.board_list > div:last-child {
+    border-bottom: 1px solid #000;
+}
+
+.board_list > div > div {
+    display: inline-block;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 12px;
+}
+
+.board_list > div.top > div {
+    font-weight: 600;
+}
+
+.board_list .title {
+    width: 58%;
+    text-align: left;
+    margin-left: 20px;
+}
+
+.board_list .top .title {
+    text-align: center;
+}
+
+.board_list .writer {
+    width: 10%;
+}
+
+.board_list .date {
+    width: 10%;
+}
+
+.board_list .count {
+    width: 10%;
+}
+
+.board_list .like {
+    width: 10%;
+}
+
+.board_page {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 0;
+}
+
+.board_page a {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    box-sizing: border-box;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    border-left: 0;
+    line-height: 100%;
+}
+
+.board_page a.bt {
+    padding-top: 10px;
+    font-size: 12px;
+    letter-spacing: -1px;
+}
+
+.board_page a.num {
+    padding-top: 9px;
+    font-size: 12px;
+}
+
+.board_page a.num.on {
+    border-color: #000;
+    background: #000;
+    color: #fff;
+}
+
+.board_page a:first-child {
+    border-left: 1px solid #ddd;
+}
