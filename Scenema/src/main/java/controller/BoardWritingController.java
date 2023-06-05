@@ -15,7 +15,7 @@ public class BoardWritingController {
 	@Autowired
 	BoardService service;
 
-	@GetMapping({"/boardwriting", "/"})
+	@GetMapping("/boardwriting")
 	public String writingForm(Model m) {
 		m.addAttribute("boardDTO", new BoardDTO());
 		return "WritingForm";
