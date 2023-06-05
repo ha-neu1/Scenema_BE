@@ -300,8 +300,10 @@ div {
 
 /* 관람평 조회 헤더 */
 .comment_box {
+	overflow:hidden;
+	height:auto;
 	margin-top : 50px;
-	height : 1150px;
+	height:auto;
 	border-bottom: 2px solid #FF7322;
 }
 
@@ -390,7 +392,7 @@ div {
 }
 
 /* 평점댓글 페이지 버튼 */
-#page_btns {
+#page_btns_box {
 	margin-top:20px;
 	height:30px;
 	display:flex;
@@ -398,7 +400,7 @@ div {
 	justify-content: center;
 }
 
-#page_btns>.pagebtn {
+#page_btns_box button {
 	width:30px;
 	height:30px;
 	font-size: 15px;
@@ -410,7 +412,7 @@ div {
 	border-radius: 5px;
 }
 
-#page_btns>.pagebtn:hover {
+#page_btns_box button:hover {
 	background-color: #FF7322;
 	border:1px solid #FF7322;
 	color: white;

@@ -25,4 +25,16 @@
 		select count(*) from moviecomment where movieid=#{movieid};
 	</select>
 	
+	<delete id="deleteComment" parameterType="int">
+		delete from moviecomment where movieCommentid=#{movieCommentid};
+	</delete>
+	
+	<update id="updateLikeUp" parameterType="int"> 
+		UPDATE moviecomment SET commentLike = commentLike+1 WHERE movieCommentid=#{movieCommentid};
+	</update>
+	
+	<update id="updateLikeDown" parameterType="int"> 
+		UPDATE moviecomment SET commentLike = commentLike-1 WHERE movieCommentid=#{movieCommentid};
+	</update>
+	
 </mapper>

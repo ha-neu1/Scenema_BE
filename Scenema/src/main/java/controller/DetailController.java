@@ -51,6 +51,8 @@ public class DetailController {
 		
 		//영화 평점댓글
 		int commentsCount = service_c.getCommentsCount(movieid); //전체 영화 댓글 개수
+		int pageblock = page/10;
+		int maxpage = commentsCount%10!=0?commentsCount/10+1:commentsCount%10;
 		
 		HashMap<String, Integer> cmtmap = new HashMap<String, Integer>();
 		cmtmap.put("movieid", movieid);
@@ -58,7 +60,6 @@ public class DetailController {
 		cmtmap.put("limit",10);
 		
 		List<MovieCommentDTO> comments = service_c.getPagingComments(cmtmap); // 댓글 리스트(page=1)
-		
 		
 		//댓글 시간변경
 		for(MovieCommentDTO cmts : comments) {
@@ -75,6 +76,8 @@ public class DetailController {
 		mv.addObject("videos", newVideos);
 		mv.addObject("comments", comments);
 		mv.addObject("commentsCount", commentsCount);
+		mv.addObject("pageblock", pageblock);
+		mv.addObject("maxpage", maxpage);
 		mv.addObject("movieScore", movieScore);
 		
 //		mv.setViewName("test");
@@ -98,6 +101,33 @@ public class DetailController {
 		return comments_new;
 	}
 	
+	//평점댓글 페이징처리
+	@RequestMapping(value="/commentpaging", produces = {"application/json;charset=utf-8"})
+	public @ResponseBody String detailComment(int movieid, int page) {
+		return "{\"page\":"+page+"}";
+	}
+	
+	//평점댓글 삭제
+	@RequestMapping(value="/commentdelete", produces = {"application/json;charset=utf-8"})
+	public String deleteComment(int movieid, int moviecommentid) {
+		service_c.deleteComment(moviecommentid);
+		return "redirect:/detailpage?movieid="+movieid;
+	}
+
+	//평점댓글 좋아요 +1
+	@RequestMapping(value="/likeup", produces = {"application/json;charset=utf-8"})
+	public String commentLikeUp(int movieid, int moviecommentid) {
+		service_c.updateLikeUp(moviecommentid);
+		return "redirect:/detailpage?movieid="+movieid;
+	}
+
+	//평점댓글 좋아요취소 -1
+	@RequestMapping(value="/likedown", produces = {"application/json;charset=utf-8"})
+	public String commentLikeDown(int movieid, int moviecommentid) {
+		service_c.updateLikeDown(moviecommentid);
+		return "redirect:/detailpage?movieid="+movieid;
+	}
+
 	//동영상 url 변환용 메서드 - 추후 db수정
     public static String videourl(String videourl) {
     	String pageContents = "";

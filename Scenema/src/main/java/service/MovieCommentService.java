@@ -33,4 +33,16 @@ public class MovieCommentService {
 	public List<MovieCommentDTO> getPagingComments(HashMap<String, Integer> map){
 		return dao.getPagingComments(map);
 	}
+	
+	public int deleteComment(int movieCommentid) {
+		return dao.deleteComment(movieCommentid);
+	}
+	
+	public int updateLikeUp(int movieCommentid) {
+		return dao.updateLikeUp(movieCommentid);
+	}
+
+	public int updateLikeDown(int movieCommentid) {
+		return dao.updateLikeDown(movieCommentid);
+	}
 }

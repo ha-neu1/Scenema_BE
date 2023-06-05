@@ -37,4 +37,16 @@ public class MovieCommentDAO {
 	public int getCommentsCount(int movieid) {
 		return session.selectOne("getCommentsCount", movieid);
 	}
+	
+	public int deleteComment(int movieCommentid) {
+		return session.delete("deleteComment",movieCommentid);
+	}
+	
+	public int updateLikeUp(int movieCommentid) {
+		return session.update("updateLikeUp", movieCommentid);
+	}
+
+	public int updateLikeDown(int movieCommentid) {
+		return session.update("updateLikeDown", movieCommentid);
+	}
 }

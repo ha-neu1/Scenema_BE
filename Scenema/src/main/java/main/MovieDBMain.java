@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,7 +55,7 @@ public class MovieDBMain {
         paramMap.put("detail", "Y");    // 디테일
         paramMap.put("releaseDts", "20230101");  // 조회하고자 하는 날짜
         paramMap.put("releaseDte", "20230531");  // 조회하고자 하는 날짜
-        paramMap.put("listCount", "300");        // 결과 ROW 의 개수( 최대 10개 )
+        paramMap.put("listCount", "250");        // 결과 ROW 의 개수( 최대 10개 )
  
         try {
             // Request URL 연결 객체 생성
@@ -64,6 +65,9 @@ public class MovieDBMain {
             // GET 방식으로 요청
             conn.setRequestMethod("GET");
             conn.setDoInput(true);
+            conn.setConnectTimeout(10000);
+            conn.setReadTimeout(20000);
+            conn.setRequestProperty("Accept", "application/json");
  
             // 응답(Response) 구조 작성 - Stream -> JSONObject
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
@@ -95,11 +99,14 @@ public class MovieDBMain {
             	dto.setRating(Results.getJSONObject(i).get("rating").toString());
             	dto.setPosterurl(Results.getJSONObject(i).get("posters").toString());
             	dto.setStillcuturls(Results.getJSONObject(i).get("stlls").toString());
-            	dto.setVideourl(Results.getJSONObject(i).getJSONObject("vods").getJSONArray("vod").getJSONObject(0).get("vodUrl").toString());
+            	
+            	//videourl 수정 메서드 실행
+            	String videourl= Results.getJSONObject(i).getJSONObject("vods").getJSONArray("vod").getJSONObject(0).get("vodUrl").toString();
+                String newvideourl = videourl(videourl);
+                dto.setVideourl(newvideourl);
             	
             	dtoarray.add(dto);
             }
-            System.out.println(Results.getJSONObject(0).getJSONObject("vods").getJSONArray("vod").getJSONObject(0).get("vodUrl").toString());
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -111,7 +118,7 @@ public class MovieDBMain {
     // API요청(특정영화)
     public MovieDTO requestAPIone(String title) throws UnsupportedEncodingException {
     	MovieDTO dto = new MovieDTO();
-    	
+    	//인코딩
     	String encodeResult = URLEncoder.encode(title, "UTF-8");
     	
         // 변수 설정 - 요청(Request) 인터페이스 Map
@@ -167,6 +174,39 @@ public class MovieDBMain {
         
         return dto;
     }
+    
+    //동영상 url 변환
+    public static String videourl(String videourl) {
+    	String pageContents = "";
+    	StringBuilder contents = new StringBuilder();
+
+    	if(!videourl.equals("")) {
+    		String urlPath = videourl;
+    		
+    		try{
+    			
+    			URL url = new URL(urlPath);
+    			URLConnection con = (URLConnection)url.openConnection();
+    			InputStreamReader reader = new InputStreamReader (con.getInputStream(), "utf-8");
+    			
+    			BufferedReader buff = new BufferedReader(reader);
+    			
+    			while((pageContents = buff.readLine())!=null){
+    				if(pageContents.contains("fcnPlay")&&pageContents.contains("\'")) {
+    					String link = pageContents.strip();
+    					link = link.substring(link.indexOf("\'")+1, link.lastIndexOf("\'"));
+    					contents.append("https://www.kmdb.or.kr/trailer/play/"+link+"|");
+    				}
+    			}
+    			buff.close();
+    			
+    		}catch(Exception e){
+    			e.printStackTrace();
+    		}
+    	}
+        return contents.toString();
+ 
+    }
  
     public static void main(String[] args) throws IOException {
     	SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
@@ -182,6 +222,9 @@ public class MovieDBMain {
         // Database 생성
         ArrayList<MovieDTO> dtoarray = api.requestAPI();
         for(MovieDTO dto : dtoarray) {
+        	String videourl = dto.getVideourl();
+        	String newurl = videourl(videourl);
+        	dto.setVideourl(newurl);
         	dao.insertMovieDB(dto);
         }
         
