@@ -25,7 +25,7 @@ import dao.MovieDAO;
 import dto.MovieDTO;
  
 public class MovieDBMain {
-    // »ó¼ö ¼³Á¤ - ¿äÃ»(Request) ¿äÃ» º¯¼ö
+    // ìƒìˆ˜ ì„¤ì • - ìš”ì²­(Request) ìš”ì²­ ë³€ìˆ˜
     private final String REQUEST_URL = "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp";
     private final String AUTH_KEY = "N17IX12019AYWQVW2I2K";
  
@@ -44,32 +44,32 @@ public class MovieDBMain {
         return sb.toString();
     }
  
-    // API¿äÃ» - 20230101~0531
+    // APIìš”ì²­ - 20230101~0531
     public ArrayList<MovieDTO> requestAPI() {
     	ArrayList<MovieDTO> dtoarray = new ArrayList<MovieDTO>();
     	
-        // º¯¼ö ¼³Á¤ - ¿äÃ»(Request) ÀÎÅÍÆäÀÌ½º Map
+        // ë³€ìˆ˜ ì„¤ì • - ìš”ì²­(Request) ì¸í„°í˜ì´ìŠ¤ Map
         Map<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put("ServiceKey", AUTH_KEY);    // ¹ß±Ş¹ŞÀº ÀÎÁõÅ°
-        paramMap.put("collection", "kmdb_new2");    // ÄÃ·º¼Ç
-        paramMap.put("detail", "Y");    // µğÅ×ÀÏ
-        paramMap.put("releaseDts", "20230101");  // Á¶È¸ÇÏ°íÀÚ ÇÏ´Â ³¯Â¥
-        paramMap.put("releaseDte", "20230531");  // Á¶È¸ÇÏ°íÀÚ ÇÏ´Â ³¯Â¥
-        paramMap.put("listCount", "250");        // °á°ú ROW ÀÇ °³¼ö( ÃÖ´ë 10°³ )
+        paramMap.put("ServiceKey", AUTH_KEY);    // ë°œê¸‰ë°›ì€ ì¸ì¦í‚¤
+        paramMap.put("collection", "kmdb_new2");    // ì»¬ë ‰ì…˜
+        paramMap.put("detail", "Y");    // ë””í…Œì¼
+        paramMap.put("releaseDts", "20230101");  // ì¡°íšŒí•˜ê³ ì í•˜ëŠ” ë‚ ì§œ
+        paramMap.put("releaseDte", "20230531");  // ì¡°íšŒí•˜ê³ ì í•˜ëŠ” ë‚ ì§œ
+        paramMap.put("listCount", "250");        // ê²°ê³¼ ROW ì˜ ê°œìˆ˜( ìµœëŒ€ 10ê°œ )
  
         try {
-            // Request URL ¿¬°á °´Ã¼ »ı¼º
+            // Request URL ì—°ê²° ê°ì²´ ìƒì„±
             URL requestURL = new URL(REQUEST_URL+"?"+makeQueryString(paramMap));
             HttpURLConnection conn = (HttpURLConnection) requestURL.openConnection();
  
-            // GET ¹æ½ÄÀ¸·Î ¿äÃ»
+            // GET ë°©ì‹ìœ¼ë¡œ ìš”ì²­
             conn.setRequestMethod("GET");
             conn.setDoInput(true);
             conn.setConnectTimeout(10000);
             conn.setReadTimeout(20000);
             conn.setRequestProperty("Accept", "application/json");
  
-            // ÀÀ´ä(Response) ±¸Á¶ ÀÛ¼º - Stream -> JSONObject
+            // ì‘ë‹µ(Response) êµ¬ì¡° ì‘ì„± - Stream -> JSONObject
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
             String readline = null;
             StringBuffer response = new StringBuffer();
@@ -77,10 +77,10 @@ public class MovieDBMain {
                 response.append(readline);
             }
  
-            // JSON °´Ã¼·Î  º¯È¯
+            // JSON ê°ì²´ë¡œ  ë³€í™˜
             JSONObject responseBody = new JSONObject(response.toString());
             
-            // µ¥ÀÌÅÍ ÃßÃâ
+            // ë°ì´í„° ì¶”ì¶œ
             JSONArray Datas = responseBody.getJSONArray("Data");
             JSONObject Datas2 = Datas.getJSONObject(0);
             JSONArray Results = Datas2.getJSONArray("Result");
@@ -100,7 +100,7 @@ public class MovieDBMain {
             	dto.setPosterurl(Results.getJSONObject(i).get("posters").toString());
             	dto.setStillcuturls(Results.getJSONObject(i).get("stlls").toString());
             	
-            	//videourl ¼öÁ¤ ¸Ş¼­µå ½ÇÇà
+            	//videourl ìˆ˜ì • ë©”ì„œë“œ ì‹¤í–‰
             	String videourl= Results.getJSONObject(i).getJSONObject("vods").getJSONArray("vod").getJSONObject(0).get("vodUrl").toString();
                 String newvideourl = videourl(videourl);
                 dto.setVideourl(newvideourl);
@@ -115,29 +115,29 @@ public class MovieDBMain {
         return dtoarray;
     }
     
-    // API¿äÃ»(Æ¯Á¤¿µÈ­)
+    // APIìš”ì²­(íŠ¹ì •ì˜í™”)
     public MovieDTO requestAPIone(String title) throws UnsupportedEncodingException {
     	MovieDTO dto = new MovieDTO();
-    	//ÀÎÄÚµù
+    	//ì¸ì½”ë”©
     	String encodeResult = URLEncoder.encode(title, "UTF-8");
     	
-        // º¯¼ö ¼³Á¤ - ¿äÃ»(Request) ÀÎÅÍÆäÀÌ½º Map
+        // ë³€ìˆ˜ ì„¤ì • - ìš”ì²­(Request) ì¸í„°í˜ì´ìŠ¤ Map
         Map<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put("ServiceKey", AUTH_KEY); // ¹ß±Ş¹ŞÀº ÀÎÁõÅ°
-        paramMap.put("collection", "kmdb_new2"); // ÄÃ·º¼Ç
+        paramMap.put("ServiceKey", AUTH_KEY); // ë°œê¸‰ë°›ì€ ì¸ì¦í‚¤
+        paramMap.put("collection", "kmdb_new2"); // ì»¬ë ‰ì…˜
         paramMap.put("detail", "Y");
-        paramMap.put("title", encodeResult); //Å¸ÀÌÆ²
+        paramMap.put("title", encodeResult); //íƒ€ì´í‹€
  
         try {
-            // Request URL ¿¬°á °´Ã¼ »ı¼º
+            // Request URL ì—°ê²° ê°ì²´ ìƒì„±
             URL requestURL = new URL(REQUEST_URL+"?"+makeQueryString(paramMap));
             HttpURLConnection conn = (HttpURLConnection) requestURL.openConnection();
  
-            // GET ¹æ½ÄÀ¸·Î ¿äÃ»
+            // GET ë°©ì‹ìœ¼ë¡œ ìš”ì²­
             conn.setRequestMethod("GET");
             conn.setDoInput(true);
  
-            // ÀÀ´ä(Response) ±¸Á¶ ÀÛ¼º - Stream -> JSONObject
+            // ì‘ë‹µ(Response) êµ¬ì¡° ì‘ì„± - Stream -> JSONObject
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
             String readline = null;
             StringBuffer response = new StringBuffer();
@@ -145,10 +145,10 @@ public class MovieDBMain {
                 response.append(readline);
             }
  
-            // JSON °´Ã¼·Î  º¯È¯
+            // JSON ê°ì²´ë¡œ  ë³€í™˜
             JSONObject responseBody = new JSONObject(response.toString());
             
-            // µ¥ÀÌÅÍ ÃßÃâ
+            // ë°ì´í„° ì¶”ì¶œ
             JSONArray Datas = responseBody.getJSONArray("Data");
             JSONObject Datas2 = Datas.getJSONObject(0);
             JSONArray Results = Datas2.getJSONArray("Result");
@@ -175,7 +175,7 @@ public class MovieDBMain {
         return dto;
     }
     
-    //µ¿¿µ»ó url º¯È¯
+    //ë™ì˜ìƒ url ë³€í™˜
     public static String videourl(String videourl) {
     	String pageContents = "";
     	StringBuilder contents = new StringBuilder();
@@ -216,10 +216,10 @@ public class MovieDBMain {
 		MovieDAO dao = new MovieDAO();
 		dao.setSession(session);
 		
-        // API °´Ã¼ »ı¼º
+        // API ê°ì²´ ìƒì„±
         MovieDBMain api = new MovieDBMain();
  
-        // Database »ı¼º
+        // Database ìƒì„±
         ArrayList<MovieDTO> dtoarray = api.requestAPI();
         for(MovieDTO dto : dtoarray) {
         	String videourl = dto.getVideourl();
@@ -228,8 +228,8 @@ public class MovieDBMain {
         	dao.insertMovieDB(dto);
         }
         
-        // Àç°³ºÀ¿µÈ­ Ãß°¡
-        MovieDTO newdto = api.requestAPIone("±ØÀåÆÇÆ÷ÄÏ¸ó½ºÅÍDP:¾Æ¸£¼¼¿ì½ºÃÊ±ØÀÇ½Ã°øÀ¸·Î");
+        // ì¬ê°œë´‰ì˜í™” ì¶”ê°€
+        MovieDTO newdto = api.requestAPIone("ê·¹ì¥íŒí¬ì¼“ëª¬ìŠ¤í„°DP:ì•„ë¥´ì„¸ìš°ìŠ¤ì´ˆê·¹ì˜ì‹œê³µìœ¼ë¡œ");
         System.out.println(newdto.getTitle());
         dao.insertMovieDB(newdto);
         

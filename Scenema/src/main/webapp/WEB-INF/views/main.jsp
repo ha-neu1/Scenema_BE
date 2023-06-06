@@ -95,7 +95,7 @@
 					<a href="detailpage?movieid=${boxofficelist[vs.index].movieid}"> 
 						<span><img src="${boxofficelist[vs.index].posterurl}"></span>
 					</a>
-					<p class="title">${boxofficelist[vs.index].title}<p>
+					<p class="title" style="word-break:break-all">${boxofficelist[vs.index].title}<p>
 				</div>
 			</c:forEach>
 		</div>
@@ -106,7 +106,7 @@
 					<a href="detailpage?movieid=${boxofficelist[vs.index].movieid}"> 
 						<span><img src="${boxofficelist[vs.index].posterurl}"></span>
 					</a>
-					<p class="title">${boxofficelist[vs.index].title}<p>
+					<p class="title" style="word-break:break-all">${boxofficelist[vs.index].title}<p>
 				</div>
 			</c:forEach>
 		</div>

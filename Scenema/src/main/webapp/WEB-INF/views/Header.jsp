@@ -70,7 +70,12 @@ header {
 	<header id='header'>
 		<div >
 			<nav id='headlinks'>
-				<a href="login.jsp">로그인</a> <a href="signUp.jsp">회원가입</a>
+				<c:if test="${empty userid}">
+					<a href="/scenema/login">로그인</a> <a href="/scenema/signup">회원가입</a>
+				</c:if>
+				<c:if test="${!empty userid}">
+					<a href="/scenema/logout">로그아웃</a>
+				</c:if>
 			</nav>
 			<h1 id=logo
 				style="margin-top: 0px; margin-bottom: 30px; text-align: center; font-size: 45px">SCENEMA</h1>

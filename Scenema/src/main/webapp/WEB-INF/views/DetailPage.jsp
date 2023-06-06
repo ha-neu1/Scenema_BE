@@ -111,6 +111,24 @@ $(document).ready(function() {
 		$('.rating_txt').html(val*2);
 	})
 	
+	//영화 좋아요버튼
+	$('#movielikediv').on('click','#movielike',function(){
+		$.ajax({
+			url:'movielike',
+			data: {
+				'movieid':${movie.movieid}
+			},
+			type:'get',
+			dataType:'json',
+			success:function(res){
+				$('#movielikediv').load(location.href+' #movielikediv');
+			},
+			error:function(request,status,e){
+				alert("코드="+request.status+"\n메시지="+request.responseText+"\nerror="+e);
+			}
+		}); //ajax
+	});
+	
 	//관람평 입력시 길이제한
 	$('#txtbox').keyup(function(){
 		let txtlen = $(this).val().length;
@@ -121,6 +139,14 @@ $(document).ready(function() {
 		if(txtlen>200){
 			$(this).val($(this).val().substring(0, 200));
 			$('#txtlen').html("(200 / 200)");
+		}
+	});
+	
+	$("#txtbox_readonly").click(function(){
+		let islogin = confirm("로그인이 필요한 항목입니다. 로그인 창으로 이동하시겠습니까?");
+		
+		if(islogin){
+			location.href = "/scenema/"
 		}
 	});
 	
@@ -142,7 +168,6 @@ $(document).ready(function() {
 				url:'commentinsert',
 				data: {
 					'movieid':${movie.movieid},
-					'userid':'java3', //★추후 로그인한 회원 아이디값으로 변경 필요★
 					'score': $('#score').val()*2,
 					'contents':review
 				},
@@ -185,43 +210,23 @@ $(document).ready(function() {
 	
 	//관람평 좋아요 버튼
 	$('#cmt_list').on('click','button[class=good_btn]',function(){
-		//좋아요 취소
-		if($(this).css('color')=='rgb(255, 115, 34)'){
-			$(this).children('span').css('font-variation-settings',"'FILL' 0, 'wght' 400,'GRAD' 0,'opsz' 40");
-			$(this).css('color','lightgrey');
-			
-			$.ajax({
-				url:'likedown',
-				data: {
-					'movieid':${movie.movieid},
-					'moviecommentid':$(this).parents(".cmt").attr('id')
-				},
-				type:'get',
-				success:function(res){},
-				error:function(request,status,e){
-					alert("코드="+request.status+"\n메시지="+request.responseText+"\nerror="+e);
-				}
-			}); //ajax
-			
-		}else{
-			//좋아요 누른경우
-			$(this).children('span').css('font-variation-settings',"'FILL' 1, 'wght' 400,'GRAD' 0,'opsz' 40");
-			$(this).css('color','#FF7322');
-			
-			$.ajax({
-				url:'likeup',
-				data: {
-					'movieid':${movie.movieid},
-					'moviecommentid':$(this).parents(".cmt").attr('id')
-				},
-				type:'get',
-				success:function(res){},
-				error:function(request,status,e){
-					alert("코드="+request.status+"\n메시지="+request.responseText+"\nerror="+e);
-				}
-			}); //ajax
-		}//if-else
+		$.ajax({
+			url:'moviecommentlike',
+			data: {
+				'moviecommentid':$(this).parents(".cmt").attr('id')
+			},
+			type:'get',
+			dataType:'json',
+			success:function(res){
+				alert("성공");
+				$('#cmt_list').load(location.href+' #cmt_list');
+			},
+			error:function(request,status,e){
+				alert("코드="+request.status+"\n메시지="+request.responseText+"\nerror="+e);
+			}
+		}); //ajax
 	});
+	
 	
 	//관람평 페이징 버튼
 	//숫자버튼
@@ -240,7 +245,6 @@ $(document).ready(function() {
 		$.ajax({
 			url:'commentpaging',
 			data: {
-				'movieid':${movie.movieid},
 				'page': $(this).html()
 			},
 			type:'get',
@@ -259,7 +263,6 @@ $(document).ready(function() {
 		$.ajax({
 			url:'commentpaging',
 			data: {
-				'movieid':${movie.movieid},
 				'page': 1
 			},
 			type:'get',
@@ -276,17 +279,60 @@ $(document).ready(function() {
 	
 	//마지막페이지( >> ) 버튼
 	$("#page_btns_box").on('click','#pageLastbtn',function(){
-		$('#cmt_list').load('/scenema/detailpage?movieid='+${movie.movieid}+'&page='+${maxpage}+' #cmt_list');
-		$('#page_btns_box').load('/scenema/detailpage?movieid='+${movie.movieid}+'&page='+${maxpage}+' #page_btns_box');
+		$.ajax({
+			url:'commentpaging',
+			data: {
+				'page': ${maxpage}
+			},
+			type:'get',
+			dataType:'json',
+			success:function(res){
+				$('#cmt_list').load('/scenema/detailpage?movieid='+${movie.movieid}+'&page='+res.page+' #cmt_list');
+				$('#page_btns_box').load('/scenema/detailpage?movieid='+${movie.movieid}+'&page='+res.page+' #page_btns_box');
+			},
+			error:function(request,status,e){
+				alert("코드="+request.status+"\n메시지="+request.responseText+"\nerror="+e);
+			}
+		}); //ajax
 	});
 
-	//다음페이지( > ) 버튼#pageNextbtn
+	//다음페이지( > ) 버튼 #pageNextbtn
 	$("#page_btns_box").on('click','#pageNextbtn',function(){
-		alert($('#page_btns_box>.pagebtn_num:first').html());
-		/* let pageint = $('#page_btns_box>.pagebtn_num:first').html();
-		pageint = Number(pageint)+10;
-		$('#cmt_list').load('/scenema/commentpaging?movieid='+${movie.movieid}+'&page='+pageint+' #cmt_list');
-		$('#page_btns_box').load('/scenema/commentpaging?movieid='+${movie.movieid}+'&page='+pageint+' #page_btns_box'); */
+		$.ajax({
+			url:'commentpagingnext',
+			data: {
+				'page': $(this).prev().html(),
+				'maxpage': ${maxpage}
+			},
+			type:'get',
+			dataType:'json',
+			success:function(res){
+				$('#cmt_list').load('/scenema/detailpage?movieid='+${movie.movieid}+'&page='+res.startpage+' #cmt_list');
+				$('#page_btns_box').load('/scenema/detailpage?movieid='+${movie.movieid}+'&page='+res.startpage+' #page_btns_box');
+			},
+			error:function(request,status,e){
+				alert("코드="+request.status+"\n메시지="+request.responseText+"\nerror="+e);
+			}
+		}); //ajax
+	});
+	
+	//이전페이지( < ) 버튼 #pagePrevbtn
+	$("#page_btns_box").on('click','#pagePrevbtn',function(){
+		$.ajax({
+			url:'commentpagingprev',
+			data: {
+				'page': $(this).next().html()
+			},
+			type:'get',
+			dataType:'json',
+			success:function(res){
+				$('#cmt_list').load('/scenema/detailpage?movieid='+${movie.movieid}+'&page='+res.startpage+' #cmt_list');
+				$('#page_btns_box').load('/scenema/detailpage?movieid='+${movie.movieid}+'&page='+res.startpage+' #page_btns_box');
+			},
+			error:function(request,status,e){
+				alert("코드="+request.status+"\n메시지="+request.responseText+"\nerror="+e);
+			}
+		}); //ajax
 	});
 	
 });//end ready
@@ -313,7 +359,14 @@ $(document).ready(function() {
 				<div id='titleTop' style="margin-bottom: 210px">
 					<h1 style="font-size: 40px; margin-top: 30px; margin-bottom: 5px">${movie.title}</h1>
 					<h1 style="font-size: 20px">${movie.titleEng}</h1>
-					<button>♥ 1.7k</button>
+					<div id='movielikediv'>
+						<c:if test="${ismovielike==0}">
+							<button id='movielike'>♥ ${movielikecount}</button>
+						</c:if>
+						<c:if test="${ismovielike!=0}">
+							<button id='movielike' style="background-color: white; color: #EA2649">♥ ${movielikecount}</button>
+						</c:if>
+					</div>
 				</div>
 				<!-- 포스터 영역 -->
 
@@ -351,15 +404,14 @@ $(document).ready(function() {
 
 		<div style='margin-left: 8px;'>
 			<div class='detail_divs' id='detail_div1' style='display: block;'>
-				<p style='font-size: 18px; margin: 30px auto;'>${movie.story}</p>
-				<p style='font-size: 15px; display: inline'>◦ 장르 : ${movie.genre}</p>
-				<p style='font-size: 15px; display: inline; margin-left: 10px; padding-left: 10px; border-left: 1px solid lightgrey;'>
+				<p style='font-size: 18px; margin: 30px auto; line-height: 35px; word-wrap:break-word;'>${movie.story}</p>
+				<p style='font-size: 17px; display: inline; line-height: 25px;'>◦ 장르 : ${movie.genre}</p>
+				<p style='font-size: 17px; display: inline; line-height: 25px; margin-left: 10px; padding-left: 10px; border-left: 1px solid lightgrey;'>
 					개봉 : ${movie.releaseDate}</p>
-				<p
-					style='font-size: 15px; display: inline; margin-left: 10px; padding-left: 10px; border-left: 1px solid lightgrey;'>
+				<p style='font-size: 17px; display: inline; line-height: 25px; margin-left: 10px; padding-left: 10px; border-left: 1px solid lightgrey;'>
 					상영시간 : ${movie.runtime}분</p>
-				<p style='font-size: 15px; margin: 7px 0px;'>◦ 감독 : ${movie.director}</p>
-				<p style='font-size: 15px; margin: 7px 0px;'>◦ 등급 : ${movie.rating}</p>
+				<p style='font-size: 17px; line-height: 25px; margin: 7px 0px;'>◦ 감독 : ${movie.director}</p>
+				<p style='font-size: 17px; line-height: 25px; margin: 7px 0px;'>◦ 등급 : ${movie.rating}</p>
 
 				<div id='videoDiv;' style='margin-top: 40px;'>
 					<p style='font-size: 18px; display: inline'>⧉ 트레일러</p>
@@ -434,10 +486,18 @@ $(document).ready(function() {
 				
 				<!-- writing_box -->
 				<div class="writing_box">
+					<c:if test="${empty userid}">
+					<div>
+						<textarea id='txtbox_readonly' readonly="readonly" placeholder="회원로그인 후 관람평을 작성할 수 있습니다."></textarea>
+						<p id='txtlen'>(0 / 200)</p>
+					</div>
+					</c:if>
+					<c:if test="${!empty userid}">
 					<div>
 						<textarea id='txtbox' placeholder="평점 및 영화 관람평을 작성해 주세요. 평점은 마우스 드래그 및 클릭을 통해 변경 가능합니다.&#10;권리침해, 욕설 및 특정 대상을 비하하는 내용을 게시할 경우 해당 게시글은 무통보 삭제되며 이용약관 및 법률에 의해 처벌될 수 있습니다."></textarea>
 						<p id='txtlen'>(0 / 200)</p>
 					</div>
+					</c:if>
 					<button id='comment_write'> 관람평 작성 </button>
 				</div><!-- writing_box -->
 				
@@ -466,11 +526,27 @@ $(document).ready(function() {
 								<span><span class="cmt_star1">★★★★★<span class="cmt_star2" style="width:${comment.score*10}%">★★★★★</span></span><span class='cmt_score'>${comment.score}</span></span>
 								<span><span>${comment.contents}</span></span>
 								<span><span>${comment.createAt}</span></span>
-								<c:if test="${comment.userid == 'spring3'}"> <!-- ★★★세션아이디로 변경필요★★★ -->
+								<c:if test="${comment.userid == userid}"> <!-- ★★★세션아이디로 변경필요★★★ -->
 									<span><button class="delete_btn"><span class="material-symbols-sharp">delete</span></button></span>
 								</c:if>
-								<c:if test="${comment.userid != 'spring3'}"> <!-- ★★★세션아이디로 변경필요★★★ -->
-									<span><button class="good_btn"><span class="material-symbols-sharp">thumb_up</span></button></span>
+								<c:if test="${comment.userid != userid}"> <!-- ★★★세션아이디로 변경필요★★★ -->
+									<c:if test="${comment.like == 0}">
+										<span>
+										<button class="good_btn"><span class="material-symbols-sharp">thumb_up</span>
+										<br>
+										<span class="good_btn_like">${!empty comment.like ? 0 : comment.like}</span>
+										</button>
+										</span>
+									</c:if>
+									<c:if test="${comment.like != 0}">
+										<span>
+										<button class="good_btn" style="color:#FF7322">
+										<span class="material-symbols-sharp" style="font-variation-settings:'FILL' 1, 'wght' 400,'GRAD' 0,'opsz' 40 ">thumb_up</span>
+										<br>
+										<span class="good_btn_like">${comment.like}</span>
+										</button>
+										</span>
+									</c:if>
 								</c:if>
 							</div>
 						</c:forEach>
@@ -481,12 +557,12 @@ $(document).ready(function() {
 				<div id="page_btns_box">
 					<button class='pagebtn' id='pageFirstbtn'><span class="material-symbols-outlined">keyboard_double_arrow_left</span></button>
 					<button class='pagebtn' id='pagePrevbtn'><span class="material-symbols-outlined">keyboard_arrow_left</span></button>
-					<c:forEach begin="${pageblock*10+1}" end="${pageblock*10+1+10>maxpage?maxpage:pageblock*10+1+9}" varStatus="vs">
-						<c:if test="${vs.count==1}">
-							<button class='pagebtn_num' id='pagebtn${vs.count+(pageblock*10)}' style="background-color: #FF7322; border:1px solid #FF7322; color: white;">${vs.count+(pageblock*10)}</button>
+					<c:forEach begin="${currentpage}" end="${currentpage+9>maxpage?maxpage:currentpage+9}" varStatus="vs">
+						<c:if test="${vs.index==currentpage}">
+							<button class='pagebtn_num' id='pagebtn${vs.index}' style="background-color: #FF7322; border:1px solid #FF7322; color: white;">${vs.index}</button>
 						</c:if>
-						<c:if test="${vs.count!=1}">
-							<button class='pagebtn_num' id='pagebtn${vs.count+(pageblock*10)}'>${vs.count+(pageblock*10)}</button>
+						<c:if test="${vs.index!=currentpage}">
+							<button class='pagebtn_num' id='pagebtn${vs.index}'>${vs.index}</button>
 						</c:if>
 					</c:forEach>
 					<button class='pagebtn' id='pageNextbtn'><span class="material-symbols-outlined">keyboard_arrow_right</span></button>

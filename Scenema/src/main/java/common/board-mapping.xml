@@ -19,5 +19,15 @@
 		values( #{boardCategory}, #{title}, #{boardContent}, #{attachment})
 	</insert>
 
+<!-- 게시물 댓글 전체 조회하기 -->
+	<select id="getCommentsByBoardId" resultType="boardcommentdto">
+        SELECT * FROM boardComment WHERE boardid = #{boardid};
+    </select>
+
+<!-- 게시물 댓글 작성하기 -->
+    <insert id="insertBoardComment" parameterType="boardcommentdto">
+        INSERT INTO boardComment (boardid, userid, bcCreateAt, contents)
+        VALUES (#{boardid}, #{userid}, #{bcCreateAt}, #{contents});
+    </insert>
 
 </mapper>

@@ -18,11 +18,11 @@ public class MainController {
 
     @GetMapping("/")
     public ModelAndView main() {
-    	//apiÈ£Ãâ
+    	//apií˜¸ì¶œ
     	MovieAPI api = new MovieAPI();
     	String boxoffice = api.requestAPI();
     	
-    	//movielist DBÈ£Ãâ
+    	//movielist DBí˜¸ì¶œ
     	String [] movies = boxoffice.split("\\|");
     	ArrayList<MovieDTO> movielist = new ArrayList<MovieDTO>();
     	

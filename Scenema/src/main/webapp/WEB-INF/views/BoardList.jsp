@@ -38,7 +38,7 @@
                 <c:forEach var="board" items="${BoardList}">
                 <div>
 					<div class="num" id="boardid">${board.boardid }</div>
-                    <div class="title" id="title"><a href="/scenema/boardlist/${board.boardid}">${board.title}</a></div>
+                    <div class="title" id="title"><a href="/scenema/boarddetail?boardid=${board.boardid }">${board.title}</a></div>
                     <div class="writer" id="userid">${board.userid}</div>
                     <div class="date" id="creatAt">${board.creatAt}</div>
                     <div class="count" id="boardCount">${board.boardCount}</div>

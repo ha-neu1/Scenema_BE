@@ -12,7 +12,7 @@ div {
 #imgback {
 	width: 100%;
 	height: 500px;
-	margin : 5px auto;
+	margin : 30px auto;
 }
 
 #imgs {
@@ -39,15 +39,16 @@ div {
 	color: white;
 }
 
-#movietitle button {
+#movielike {
 	width: 80px;
 	height: 30px;
 	background-color: transparent;
 	border: 1px solid white;
+	color: white;
 	border-radius: 3px;
 }
 
-#movietitle button:hover {
+#movielike:hover {
 	background-color: white;
 	color: #EA2649;
 }
@@ -72,7 +73,7 @@ div {
 }
 
 .detail_item {
-	width:500px; height: 50px;
+	width:505px; height: 50px;
 	border-top : 1px solid lightgrey;
 	border-right : 1px solid lightgrey;
 	border-bottom: 1px solid #FF7322;
@@ -262,6 +263,19 @@ div {
 }
 
 #txtbox {
+	margin:0px;
+	width:98%;
+	height:60px;
+	resize: none;
+	border-width: 0px;
+	font-size:14px;
+	padding:7px;
+	padding-top:10px;
+	overflow:hidden;
+	outline:none;
+}
+
+#txtbox_readonly {
 	margin:0px;
 	width:98%;
 	height:60px;
