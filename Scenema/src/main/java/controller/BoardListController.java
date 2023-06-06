@@ -15,8 +15,8 @@ import service.BoardService;
 public class BoardListController {
 	@Autowired
 	BoardService service;
-
 	ModelAndView mv = new ModelAndView();
+
 	// 게시글 전체 목록 조회
 	@RequestMapping("/boardlist")
 	public ModelAndView getBoardList() {
@@ -30,10 +30,9 @@ public class BoardListController {
 	@RequestMapping("/boardlist/{boardid}")
 	public ModelAndView getBoardListById(@PathVariable int boardid) {
 		List<BoardDTO> boardListById = service.getBoardListById(boardid);
-		mv.addObject("boardlistbyid", boardListById);
-		mv.setViewName("boardlistbyid");
+		mv.addObject("BoardListById", boardListById);
+		mv.setViewName("BoardListById");
 		return mv;
-
 	}
 
 }

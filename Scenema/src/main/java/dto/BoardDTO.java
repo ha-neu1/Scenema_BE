@@ -2,7 +2,7 @@ package dto;
 
 public class BoardDTO {
 	int boardid;
-	String userid, boardCategory, title, createAt;
+	String userid, boardCategory, title, creatAt;
 	int boardCount, boardLike;
 	String boardContent, attachment;
 	
@@ -30,11 +30,11 @@ public class BoardDTO {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getCreateAt() {
-		return createAt;
+	public String getCreatAt() {
+		return creatAt;
 	}
-	public void setCreateAt(String createAt) {
-		this.createAt = createAt;
+	public void setCreatAt(String creatAt) {
+		this.creatAt = creatAt;
 	}
 	public int getBoardCount() {
 		return boardCount;

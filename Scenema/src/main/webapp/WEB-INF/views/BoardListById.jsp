@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
@@ -17,6 +17,7 @@
             <h2>커뮤니티</h2>
         </div>
             <div class="board_view">
+            <c:forEach var="board" items="${BoardListById}">
                 <div class="title">
                     ${board.title }
                 </div>
@@ -38,16 +39,17 @@
                         <dd>${board.boardLike }</dd>
                     </dl>
                 </div>
+              </c:forEach>  
                 <div class="cont">
                     ${board.boardContent }
                 </div>
             </div>
             <div class="bt_wrap">
-                <a href="boardList.html" class="on">목록보기</a>
-                <a href="BoardWriting.html">새글쓰기</a>
+                <a href="/scenema/boardlist" class="on">목록보기</a>
+                <a href="/scenema/boardwriting">새글쓰기</a>
                 <a>좋아요</a>
             </div>
         </div>
 </body>
-<%@ include file="Header.jsp" %>
+<%@ include file="Footer.jsp" %>
 </html>

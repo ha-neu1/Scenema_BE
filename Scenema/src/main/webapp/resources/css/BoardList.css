@@ -165,8 +165,14 @@ a {
     font-weight: 600;
 }
 
+.board_list .num {
+    width: 3%;
+    text-align: left;
+    margin-left: 20px;
+}
+
 .board_list .title {
-    width: 58%;
+    width: 50%;
     text-align: left;
     margin-left: 20px;
 }
@@ -180,7 +186,7 @@ a {
 }
 
 .board_list .date {
-    width: 10%;
+    width: 13%;
 }
 
 .board_list .count {
