@@ -28,6 +28,7 @@
 		<div>
             <div class="board_list">
                 <div class="top">
+					<div class="num">번호</div>
                     <div class="title">제목</div>
                     <div class="writer">작성자</div>
                     <div class="date">작성일</div>
@@ -36,16 +37,17 @@
                 </div>
                 <c:forEach var="board" items="${BoardList}">
                 <div>
-                    <div class="title"><a href="/scenema/boardlist/${board.title}">${board.title}</a></div>
-                    <div class="writer">${board.userid}</div>
-                    <div class="date">${board.createAt}</div>
-                    <div class="count">${board.boardCount}</div>
-                    <div class="like">${board.boardLike}</div>
+					<div class="num" id="boardid">${board.boardid }</div>
+                    <div class="title" id="title"><a href="/scenema/boarddetail?boardid=${board.boardid }">${board.title}</a></div>
+                    <div class="writer" id="userid">${board.userid}</div>
+                    <div class="date" id="creatAt">${board.creatAt}</div>
+                    <div class="count" id="boardCount">${board.boardCount}</div>
+                    <div class="like" id="boardLike">${board.boardLike}</div>
                 </div>
                 </c:forEach>
             </div>
 			<div class="board_page">
-                <a href="#" class="bt prev"><</a>
+                <a href="#" class="bt prev"></a>
                 <a href="#" class="num on">1</a>
                 <!-- <a href="#" class="num">2</a>
                 <a href="#" class="num">3</a>

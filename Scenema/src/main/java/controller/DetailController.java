@@ -42,8 +42,7 @@ public class DetailController {
 	public ModelAndView detailPage(int movieid, HttpSession session,
 			@RequestParam(value="page", required=false, defaultValue="1" ) int page) {
 		
-		//user정보저장 ★★★★★★★★★★★★★★★★ 추후변경필요
-		session.setAttribute("userid", "java3");
+		//user정보저장
 		String userid = (String) session.getAttribute("userid");
 		
 		MovieDTO dto = service.getMovieFromID(movieid);

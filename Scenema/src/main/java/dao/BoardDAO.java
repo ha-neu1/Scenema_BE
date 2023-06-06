@@ -8,22 +8,25 @@ import org.springframework.stereotype.Repository;
 
 import dto.BoardDTO;
 
-@Repository("boardDao")
+@Repository
 public class BoardDAO {
 	
 	@Autowired
 	SqlSession session;
 	
+	//게시물 작성
 	public int boardWriting(BoardDTO dto) {
 		return session.insert("boardWriting", dto);
 	}
 	
+	//게시물 목록
 	public List<BoardDTO> getBoardList(BoardDTO dto) {
         return session.selectList("getBoardList", dto);
     }
-
-    public List<BoardDTO> getBoardListById(int boardid){
-    	return session.selectOne("getBoardListById", boardid);
-    }
 	
+	//게시물 조회
+    public List<BoardDTO> getBoardListById(int boardid){
+    	return session.selectList("getBoardListById", boardid);
+    }
+    
 }

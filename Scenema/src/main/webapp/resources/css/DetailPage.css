@@ -275,6 +275,19 @@ div {
 	outline:none;
 }
 
+#txtbox_readonly {
+	margin:0px;
+	width:98%;
+	height:60px;
+	resize: none;
+	border-width: 0px;
+	font-size:14px;
+	padding:7px;
+	padding-top:10px;
+	overflow:hidden;
+	outline:none;
+}
+
 .writing_box>div>p{
 	font-size:10px;
 	text-align: right;

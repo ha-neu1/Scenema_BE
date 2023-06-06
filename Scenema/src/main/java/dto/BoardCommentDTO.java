@@ -1,7 +1,17 @@
 package dto;
 
 public class BoardCommentDTO {
+	int boardid;
 	String userid, bcCreateAt, contents;
+
+	
+	public int getBoardid() {
+		return boardid;
+	}
+
+	public void setBoardid(int boardid) {
+		this.boardid = boardid;
+	}
 
 	public String getUserid() {
 		return userid;

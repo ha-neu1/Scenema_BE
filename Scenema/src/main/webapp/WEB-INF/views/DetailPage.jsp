@@ -142,6 +142,14 @@ $(document).ready(function() {
 		}
 	});
 	
+	$("#txtbox_readonly").click(function(){
+		let islogin = confirm("로그인이 필요한 항목입니다. 로그인 창으로 이동하시겠습니까?");
+		
+		if(islogin){
+			location.href = "/scenema/"
+		}
+	});
+	
 	//관람평 등록 버튼 클릭
 	$('#comment_write').click(function(){
 		//관람평 내용 불러오기
@@ -200,7 +208,6 @@ $(document).ready(function() {
 		}
 	});
 	
-	//■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 	//관람평 좋아요 버튼
 	$('#cmt_list').on('click','button[class=good_btn]',function(){
 		$.ajax({
@@ -479,10 +486,18 @@ $(document).ready(function() {
 				
 				<!-- writing_box -->
 				<div class="writing_box">
+					<c:if test="${empty userid}">
+					<div>
+						<textarea id='txtbox_readonly' readonly="readonly" placeholder="회원로그인 후 관람평을 작성할 수 있습니다."></textarea>
+						<p id='txtlen'>(0 / 200)</p>
+					</div>
+					</c:if>
+					<c:if test="${!empty userid}">
 					<div>
 						<textarea id='txtbox' placeholder="평점 및 영화 관람평을 작성해 주세요. 평점은 마우스 드래그 및 클릭을 통해 변경 가능합니다.&#10;권리침해, 욕설 및 특정 대상을 비하하는 내용을 게시할 경우 해당 게시글은 무통보 삭제되며 이용약관 및 법률에 의해 처벌될 수 있습니다."></textarea>
 						<p id='txtlen'>(0 / 200)</p>
 					</div>
+					</c:if>
 					<button id='comment_write'> 관람평 작성 </button>
 				</div><!-- writing_box -->
 				
