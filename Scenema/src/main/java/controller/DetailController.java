@@ -98,13 +98,12 @@ public class DetailController {
 			
 				//댓글좋아요검사
 				MovieCmtLikeDTO cmt_like_dto = new MovieCmtLikeDTO(cmts.getMovieCommentid(), userid);
+				int cmtslike = service_cmtlike.countMovieCmtLike(cmts.getMovieCommentid());
+				cmts.setLike(cmtslike);
 				if(service_cmtlike.isMovieCmtLike(cmt_like_dto) != 0) {
-					int cmtslike = service_cmtlike.countMovieCmtLike(cmts.getMovieCommentid());
-					cmts.setLike(cmtslike);
+					cmts.setHate(service_cmtlike.isMovieCmtLike(cmt_like_dto));
 				}
-			
 			}
-			
 			
 		}
 		
@@ -164,11 +163,12 @@ public class DetailController {
     public @ResponseBody MovieCmtLikeDTO moviecmtlike(int moviecommentid, HttpSession session) {
     	String userid = (String) session.getAttribute("userid");
 		MovieCmtLikeDTO dto = new MovieCmtLikeDTO(moviecommentid, userid);
-    	
     	if(service_cmtlike.isMovieCmtLike(dto) == 0) {
     		service_cmtlike.insertMovieCmtLike(dto);
+    		service_c.updateLikeUp(moviecommentid);
     	}else {
     		service_cmtlike.deleteMovieCmtLike(dto);
+    		service_c.updateLikeDown(moviecommentid);
     	}
         return dto;
     }

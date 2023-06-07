@@ -15,12 +15,28 @@
 
 <!-- 게시글 작성하기 -->
 	<insert id="boardWriting" parameterType="boarddto">
-		insert into board( boardCategory, title, boardContent, attachment)
-		values( #{boardCategory}, #{title}, #{boardContent}, #{attachment})
+		insert into board( userid, boardCategory, title, boardContent, attachment)
+		values( #{userid}, #{boardCategory}, #{title}, #{boardContent}, #{attachment})
 	</insert>
 
+<!-- 게시물 조회수 +1 -->
+	<update id="boardViewUp" parameterType="int">
+		UPDATE board  SET boardCount = boardCount+1 WHERE boardid = #{boardid}
+	</update>
+
+<!-- 게시물 수정 -->
+	<update id="boardUpdating" parameterType="boarddto">
+		UPDATE board SET title=#{title}, boardContent = #{boardContent} WHERE boardid = #{boardid}
+	</update>
+
+<!-- 게시물 삭제 -->
+	<delete id="boardDelete" parameterType="int">
+		delete from board where boardid=#{boardid};
+	</delete>
+
+
 <!-- 게시물 댓글 전체 조회하기 -->
-	<select id="getCommentsByBoardId" resultType="boardcommentdto">
+	<select id="getCommentsByBoardId" resultType="boardcommentdto" parameterType="int">
         SELECT * FROM boardComment WHERE boardid = #{boardid};
     </select>
 
@@ -29,5 +45,6 @@
         INSERT INTO boardComment (boardid, userid, bcCreateAt, contents)
         VALUES (#{boardid}, #{userid}, #{bcCreateAt}, #{contents});
     </insert>
+    
 
 </mapper>

@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="resources/css/SignUpForm.css">
 <script>
 $(document).ready(function(){
-	
     $("#signUpButton").on('click', function(e){
 	    var userid = $("#userid").val();
 	    var pw = $("#pw").val();
@@ -20,6 +19,7 @@ $(document).ready(function(){
 	    var phone = $("#phone").val();
 	    var name = $("#name").val();
 	    var email = $("#emailId").val()+ "@" + $("#emailAddress").val();
+	    
         if (userid === "") {
             alert("아이디를 입력하세요.");
         } else if ( pw === "" || pwAgain === "" || pw != pwAgain) {
@@ -78,6 +78,7 @@ $(document).ready(function(){
 </head>
 <body>
 <%@ include file="Header.jsp" %>
+
 <body>
 	<article>
 		<form name="signUpForm">
@@ -85,7 +86,7 @@ $(document).ready(function(){
 			<div class='formindiv'>
 				<p>아이디</p>
 				<div id=id_div>
-					<input type="text" name="userid" id="userid" placeholder="ID" maxlength="16">
+					<input type="text" id="userid" placeholder="ID" maxlength="16">
 					<button type="button" id="idCheckButton">중복확인</button>
 				</div>
 			</div>
@@ -113,18 +114,11 @@ $(document).ready(function(){
 			</div>
 
 			<div class='formindiv'>
-				<p style="margin-bottom: 0">이메일</p>
+				<p style="margin-bottom: 8px">이메일 [ex)abc@scenema.com]</p>
 				<div id='emailinner'>
-				<input type="text" name="emailId" id="emailId" placeholder="E-MAIL">
+				<input type="text" name="emailId" id="emailId" placeholder="E-MAIL" style="width: 163px">
 				@
-				<input type="text" name="emailAddress" id="emailAddress" placeholder="">
-				<select name="emailAddressSelect" id="emailAddressSelect">
-					<option value="">직접 입력</option>
-					<option value="naver.com">naver.com</option>
-					<option value="gmail.com">gmail.com</option>
-					<option value="hanmail.net">hanmail.net</option>
-					<option value="daum.net">daum.net</option>
-				</select>
+				<input type="text" name="emailAddress" id="emailAddress" placeholder="" style="width: 170px">
 				</div>
 			</div>
 

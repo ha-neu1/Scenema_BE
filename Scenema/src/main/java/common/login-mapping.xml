@@ -6,5 +6,13 @@
 	<select id="getUserlogin" parameterType="String" resultType="dto.UserDTO">
 		select * from user where userid=#{userid};
 	</select>
+	
+	<update id="UserUpdate" parameterType="dto.UserDTO">
+		UPDATE user SET pw=#{pw}, phone=#{phone}, email=#{email} WHERE userid=#{userid};
+	</update>
+
+	<delete id="UserDelete" parameterType="String">
+		delete from user WHERE userid=#{userid};
+	</delete>
 
 </mapper>

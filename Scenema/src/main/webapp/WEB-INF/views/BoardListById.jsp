@@ -10,22 +10,69 @@
 <link href="resources/css/BoardListById.css" rel="stylesheet">
 <script src="resources/js/jquery-3.6.4.min.js"></script>
 <script>
-	$(document).ready(function(){
-		$("#addComment").on('click', function(){
-			$.ajax({
-				url : "addcomment",
-				method : "post",
-				data : {
-					"boardid" : $("#boardid").val(),
-					"contents" : $("#add_comment").val(),
-					"userid" : "java3"
-				},
-				success : function(){
-					alert("댓글을 등록했습니다.")
+$(document).ready(function(){
+	$(".bt_wrap").on('click','#Writing',function(e){
+		e.preventDefault();
+		let id = "${userid}";
+		
+		if(id!=""){
+			location.href = "/scenema/boardwriting";
+		}else{
+			let con = confirm("로그인이 필요한 항목입니다.\n로그인 창으로 이동하시겠습니까?");
+			if(con){
+				location.href = "/scenema/login";
+			}
+		}
+	});
+	
+	$("#Delete").on('click',function(e){
+		e.preventDefault();
+		let loginid = "${userid}";
+		let writerid = "${BoardListById[0].userid}";
+		
+		if(loginid!=""){
+			if(loginid == writerid){
+				if(confirm('해당 게시물을 삭제하시겠습니까? \n삭제 후에는 복구할 수 없습니다.')){
+					$.ajax({
+						url:'boarddelete',
+						data: {
+							'boardid': "${BoardListById[0].boardid}"
+						},
+						type:'get',
+						success:function(res){
+							alert("게시물이 삭제되었습니다.");
+							location.href = "/scenema/boardlist";
+						},
+						error:function(request,status,e){
+							alert("코드="+request.status+"\n메시지="+request.responseText+"\nerror="+e);
+						}
+					}); //ajax
+				}else{
+					alert("게시물 삭제를 취소합니다.");
 				}
-			});//ajax
-		});//click
-	});//ready
+			}else{
+				alert("해당 글을 작성한 회원만 삭제할 수 있습니다.");
+			}
+		}else{
+			alert("해당 글을 작성한 회원만 삭제할 수 있습니다.\n로그인 해주세요.");
+		}
+	});
+	
+	$("#Update").on('click',function(e){
+		e.preventDefault();
+		let loginid = "${userid}";
+		let writerid = "${BoardListById[0].userid}";
+		if(loginid!=""){
+			if(loginid == writerid){
+				location.href = "/scenema/boardupdate?boardid="+"${BoardListById[0].boardid}";
+			}else{
+				alert("해당 글을 작성한 회원만 수정할 수 있습니다.");
+			}
+		}else{
+			alert("해당 글을 작성한 회원만 수정할 수 있습니다.\n로그인 해주세요.");
+		}
+	});
+})
 </script>
 </head>
 <body>
@@ -36,28 +83,28 @@
 		</div>
 		<div class="board_view">
 			<c:forEach var="board" items="${BoardListById}">
-				<div class="title">${board.title }</div>
+				<div class="title">${board.title}</div>
 				<div class="info">
 					<dl>
 						<dt>번호</dt>
-						<dd id="boardid">${board.boardid }</dd>
+						<dd id="boardid">${board.boardid}</dd>
 					</dl>
 					<dl>
 						<dt>작성자</dt>
-						<dd>${board.userid }</dd>
+						<dd>${board.userid}</dd>
 					</dl>
 					<dl>
 						<dt>작성일</dt>
-						<dd>${board.creatAt }</dd>
+						<dd>${board.creatAt}</dd>
 					</dl>
 					<dl>
 						<dt>조회수</dt>
-						<dd>${board.boardCount }</dd>
+						<dd>${board.boardCount}</dd>
 					</dl>
-					<dl>
+					<%-- <dl>
 						<dt>좋아요</dt>
 						<dd>${board.boardLike }</dd>
-					</dl>
+					</dl> --%>
 				</div>
 			</c:forEach>
 			<c:forEach var="board" items="${BoardListById }">
@@ -65,15 +112,17 @@
 			</c:forEach>
 		</div>
 		<div class="bt_wrap">
-			<a href="/scenema/boardlist" class="on">목록보기</a> <a
-				href="/scenema/boardwriting">새글쓰기</a> <a>좋아요</a>
+			<a href="/scenema/boardlist" class="on" style="text-decoration:none">목록보기</a> 
+			<a href="/scenema/boardwriting" id="Writing" style="text-decoration:none">새글쓰기</a> 
+ 			<a href="" id="Delete" style="text-decoration:none">글삭제</a>
+ 			<a href="" id="Update" style="text-decoration:none">글수정</a>
 		</div>
+		
+<!-- 
 			<div class="comment-in">
-				<input type="text" id="add_comment" placeholder="댓글을 남겨주세요." autocomplete="off"
-					id="incomment" />
+				<input type="text" id="add_comment" placeholder="댓글을 남겨주세요." autocomplete="off"/>
 				<button id="addComment">댓글 추가</button>
 			</div>
-<!-- 
 		<c:forEach var="boardComment" items="${BoardCommentById}">
 			<div id="comment-list">
 				<div id="item" class="item">

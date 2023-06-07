@@ -1,5 +1,7 @@
 package service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,10 @@ public class MovieLikeService {
 	
 	public int countMovieLike(int movieid) {
 		return dao.countMovieLike(movieid);
+	}
+	
+	public List<MovieLikeDTO> listMovieLikeByUser(String userid){
+		return dao.listMovieLikeByUser(userid);
 	}
 	
 }

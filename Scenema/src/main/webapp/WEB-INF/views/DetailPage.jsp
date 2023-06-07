@@ -113,20 +113,26 @@ $(document).ready(function() {
 	
 	//영화 좋아요버튼
 	$('#movielikediv').on('click','#movielike',function(){
-		$.ajax({
-			url:'movielike',
-			data: {
-				'movieid':${movie.movieid}
-			},
-			type:'get',
-			dataType:'json',
-			success:function(res){
-				$('#movielikediv').load(location.href+' #movielikediv');
-			},
-			error:function(request,status,e){
-				alert("코드="+request.status+"\n메시지="+request.responseText+"\nerror="+e);
-			}
-		}); //ajax
+		let sessionid = "${userid}";
+		if(sessionid != ""){
+			$.ajax({
+				url:'movielike',
+				data: {
+					'movieid':${movie.movieid}
+				},
+				type:'get',
+				dataType:'json',
+				success:function(res){
+					$('#movielikediv').load(location.href+' #movielikediv');
+				},
+				error:function(request,status,e){
+					alert("코드="+request.status+"\n메시지="+request.responseText+"\nerror="+e);
+				}
+			}); //ajax
+		}else{
+			alert("로그인 후 좋아요 기능을 이용할 수 있습니다.");
+		}
+		
 	});
 	
 	//관람평 입력시 길이제한
@@ -210,21 +216,25 @@ $(document).ready(function() {
 	
 	//관람평 좋아요 버튼
 	$('#cmt_list').on('click','button[class=good_btn]',function(){
-		$.ajax({
-			url:'moviecommentlike',
-			data: {
-				'moviecommentid':$(this).parents(".cmt").attr('id')
-			},
-			type:'get',
-			dataType:'json',
-			success:function(res){
-				alert("성공");
-				$('#cmt_list').load(location.href+' #cmt_list');
-			},
-			error:function(request,status,e){
-				alert("코드="+request.status+"\n메시지="+request.responseText+"\nerror="+e);
-			}
-		}); //ajax
+		let sessionid = "${userid}";
+		if(sessionid != ""){
+			$.ajax({
+				url:'moviecommentlike',
+				data: {
+					'moviecommentid':$(this).parents(".cmt").attr('id')
+				},
+				type:'get',
+				dataType:'json',
+				success:function(res){
+					$('#cmt_list').load(location.href+' #cmt_list');
+				},
+				error:function(request,status,e){
+					alert("코드="+request.status+"\n메시지="+request.responseText+"\nerror="+e);
+				}
+			}); //ajax
+		}else{
+			alert("로그인 후 좋아요 기능을 이용할 수 있습니다.");
+		}
 	});
 	
 	
@@ -526,19 +536,19 @@ $(document).ready(function() {
 								<span><span class="cmt_star1">★★★★★<span class="cmt_star2" style="width:${comment.score*10}%">★★★★★</span></span><span class='cmt_score'>${comment.score}</span></span>
 								<span><span>${comment.contents}</span></span>
 								<span><span>${comment.createAt}</span></span>
-								<c:if test="${comment.userid == userid}"> <!-- ★★★세션아이디로 변경필요★★★ -->
+								<c:if test="${comment.userid == userid}"> 
 									<span><button class="delete_btn"><span class="material-symbols-sharp">delete</span></button></span>
 								</c:if>
-								<c:if test="${comment.userid != userid}"> <!-- ★★★세션아이디로 변경필요★★★ -->
-									<c:if test="${comment.like == 0}">
+								<c:if test="${comment.userid != userid}">
+									<c:if test="${comment.hate == 0}">
 										<span>
 										<button class="good_btn"><span class="material-symbols-sharp">thumb_up</span>
 										<br>
-										<span class="good_btn_like">${!empty comment.like ? 0 : comment.like}</span>
+										<span class="good_btn_like">${comment.like}</span>
 										</button>
 										</span>
 									</c:if>
-									<c:if test="${comment.like != 0}">
+									<c:if test="${comment.hate != 0}">
 										<span>
 										<button class="good_btn" style="color:#FF7322">
 										<span class="material-symbols-sharp" style="font-variation-settings:'FILL' 1, 'wght' 400,'GRAD' 0,'opsz' 40 ">thumb_up</span>

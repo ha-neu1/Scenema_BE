@@ -46,17 +46,18 @@
                 alert("제목, 내용은 필수 입력 항목입니다.");
             } else {
                 $.ajax( {
-                    url : "boardwriting",
+                    url : "boardupdate",
                     method : "post",
                     data : {
+                    	"boardid" : "${BoardListById[0].boardid}",
                         "title" : title,
                         "userid" : userid,
                         "boardContent" : boardContent,
                         "attachment" : attachment
                     },
-                    success : function(){
-                        alert("글이 성공적으로 등록되었습니다.");
-                        window.location.href = "/scenema/boardlist";
+                    success : function(res){
+                        alert("수정되었습니다.");
+                        window.location.href = "/scenema/boarddetail?boardid="+"${BoardListById[0].boardid}";
                        
                     },
                     error : function(){
@@ -88,15 +89,15 @@
 		</div>
  -->
 		<div>
-			<label for="userid">작성자 : </label><input type="text" id="userid" value="${userid}" readonly>
+			<label for="userid">작성자 : </label><input type="text" id="userid" value="${userid }" readonly>
 		</div>
 		<div>
-			<label for="title"></label> <input type="text" placeholder="제목"
+			<label for="title"></label> <input type="text" value="${BoardListById[0].title}"
 				id="title" name="title"><br>
 		</div>
 		<div>
-			<textarea id="boardContent" name="boardContent" placeholder="내용"
-				rows="10" cols="100" style="width: 100%;"></textarea>
+			<textarea id="boardContent" name="boardContent" rows="10" cols="100" style="width: 100%;">
+			${BoardListById[0].boardContent}</textarea>
 		</div>
 		<div>
 			<!-- <label for="attachment">첨부파일</label> 
