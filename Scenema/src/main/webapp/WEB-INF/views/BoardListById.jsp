@@ -114,8 +114,12 @@ $(document).ready(function(){
 		<div class="bt_wrap">
 			<a href="/scenema/boardlist" class="on" style="text-decoration:none">목록보기</a> 
 			<a href="/scenema/boardwriting" id="Writing" style="text-decoration:none">새글쓰기</a> 
- 			<a href="" id="Delete" style="text-decoration:none">글삭제</a>
- 			<a href="" id="Update" style="text-decoration:none">글수정</a>
+			
+			<c:if test="${userid==BoardListById[0].userid}">
+	 			<a href="" id="Delete" style="text-decoration:none">글삭제</a>
+	 			<a href="" id="Update" style="text-decoration:none">글수정</a>
+			</c:if>
+			
 		</div>
 		
 <!-- 
