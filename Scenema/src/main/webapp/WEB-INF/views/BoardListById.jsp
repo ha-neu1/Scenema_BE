@@ -30,31 +30,23 @@ $(document).ready(function(){
 		let loginid = "${userid}";
 		let writerid = "${BoardListById[0].userid}";
 		
-		if(loginid!=""){
-			if(loginid == writerid){
-				if(confirm('해당 게시물을 삭제하시겠습니까? \n삭제 후에는 복구할 수 없습니다.')){
-					$.ajax({
-						url:'boarddelete',
-						data: {
-							'boardid': "${BoardListById[0].boardid}"
-						},
-						type:'get',
-						success:function(res){
-							alert("게시물이 삭제되었습니다.");
-							location.href = "/scenema/boardlist";
-						},
-						error:function(request,status,e){
-							alert("코드="+request.status+"\n메시지="+request.responseText+"\nerror="+e);
-						}
-					}); //ajax
-				}else{
-					alert("게시물 삭제를 취소합니다.");
+		if(confirm('해당 게시물을 삭제하시겠습니까? \n삭제 후에는 복구할 수 없습니다.')){
+			$.ajax({
+				url:'boarddelete',
+				data: {
+					'boardid': "${BoardListById[0].boardid}"
+				},
+				type:'get',
+				success:function(res){
+					alert("게시물이 삭제되었습니다.");
+					location.href = "/scenema/boardlist";
+				},
+				error:function(request,status,e){
+					alert("코드="+request.status+"\n메시지="+request.responseText+"\nerror="+e);
 				}
-			}else{
-				alert("해당 글을 작성한 회원만 삭제할 수 있습니다.");
-			}
+			}); //ajax
 		}else{
-			alert("해당 글을 작성한 회원만 삭제할 수 있습니다.\n로그인 해주세요.");
+			alert("게시물 삭제를 취소합니다.");
 		}
 	});
 	
@@ -62,14 +54,8 @@ $(document).ready(function(){
 		e.preventDefault();
 		let loginid = "${userid}";
 		let writerid = "${BoardListById[0].userid}";
-		if(loginid!=""){
-			if(loginid == writerid){
-				location.href = "/scenema/boardupdate?boardid="+"${BoardListById[0].boardid}";
-			}else{
-				alert("해당 글을 작성한 회원만 수정할 수 있습니다.");
-			}
-		}else{
-			alert("해당 글을 작성한 회원만 수정할 수 있습니다.\n로그인 해주세요.");
+		if(loginid == writerid){
+			location.href = "/scenema/boardupdate?boardid="+"${BoardListById[0].boardid}";
 		}
 	});
 })
