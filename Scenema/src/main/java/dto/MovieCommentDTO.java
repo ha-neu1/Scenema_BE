@@ -5,8 +5,14 @@ public class MovieCommentDTO {
 	String userid;
 	int movieid,score;
 	String createAt, contents;
-	int like;
+	int like, hate;
 	
+	public int getHate() {
+		return hate;
+	}
+	public void setHate(int hate) {
+		this.hate = hate;
+	}
 	public int getMovieCommentid() {
 		return movieCommentid;
 	}

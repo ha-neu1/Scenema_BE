@@ -33,6 +33,7 @@ public class LoginController {
 		}else {
 			result="login sucess";
 			session.setAttribute("userid", userid);
+			session.setAttribute("loginUser", loginUser);
 		}
 		return result;
 	}
@@ -40,6 +41,7 @@ public class LoginController {
 	@GetMapping("/logout")
 	public String logoutUser(HttpSession session) {
 		session.removeAttribute("userid");
+		session.removeAttribute("loginUser");
 		return "redirect:/";
 	}
 }

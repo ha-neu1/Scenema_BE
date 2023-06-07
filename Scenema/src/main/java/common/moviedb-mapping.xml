@@ -21,4 +21,8 @@
 		select * from moviedb where replace(title,' ','') = replace(#{title},' ','');
 	</select>
 	
+	<select id="getAllMovie" resultType="dto.MovieDTO">
+		select * from moviedb
+	</select>
+	
 </mapper>

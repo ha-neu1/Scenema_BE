@@ -13,6 +13,10 @@ public class BoardCommentDAO {
 	@Autowired
 	SqlSession sqlSession;
 	
+	public void setSqlSession(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
+	}
+
 	public List<BoardCommentDTO> getCommentsByBoardId(int boardid){
 		return sqlSession.selectList("getCommentsByBoardId", boardid);
 	}

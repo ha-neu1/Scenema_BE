@@ -65,6 +65,24 @@ header {
 	border-bottom: solid 5px #FF7322;
 }
 </style>
+<script src="resources/js/jquery-3.6.4.min.js"></script>
+<script>
+$(document).ready(function(){
+	$("#myinfolink").on('click',function(e){
+		e.preventDefault();
+		let id = "${userid}";
+		
+		if(id!=""){
+			location.href = "/scenema/myinfo";
+		}else{
+			let con = confirm("로그인이 필요한 항목입니다.\n로그인 창으로 이동하시겠습니까?");
+			if(con){
+				location.href = "/scenema/login";
+			}
+		}
+	});
+})
+</script>
 </head>
 <body>
 	<header id='header'>
@@ -86,7 +104,7 @@ header {
 				<li class='menu_in'><a href="/scenema/">홈</a></li>
 				<li class='menu_in'><a href="/scenema/movielist">영화</a></li>
 				<li class='menu_in'><a href="/scenema/boardlist">커뮤니티</a></li>
-				<li class='menu_in'><a href="#">내정보</a></li>
+				<li class='menu_in'><a href="/scenema/myinfo" id="myinfolink">내정보</a></li>
 			</ul>
 		</nav>
 	</header>

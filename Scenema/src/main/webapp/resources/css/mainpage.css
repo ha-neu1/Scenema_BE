@@ -80,6 +80,7 @@
 	display:block;
 	width:1024px;
 	margin: 0px auto;
+	
 }
 
 .products #boxtitle{
@@ -153,86 +154,4 @@
 	height: 270px;
 	margin:3px auto;
 	border: 1px solid lightgrey;
-}
-.movie-item {
-    display:flex;
-	justify-content: space-evenly;
-	margin:20px auto;
-}
-.movie-poster {
-      width: 225px;
-      height: 292px;
-      object-fit: cover;
-      position: relative;
-    display: inline-block;
-    }
-
-.movie-list {
-    display:flex;
-	justify-content: space-evenly;
-	margin:20px auto;
-}
-    
-.products{
-	width:95%; height: 1000px;
-}
-
-.products_box {
-	margin-top:40px;
-}
-
-#movie-list {
-	position: relative;
-    display: inline-block;
-	width:225px;
-}
-.movie-list>a>* {
-	display:block;
-	text-decoration: none;
-	text-align: center;
-}
-
-.movie-list>a{
-	text-decoration: none;
-}
-
-.movie {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-           width: 225px;
-        }
-
-        .movie img {
-            width: 225px;
-            height: 292px;
-            margin-right: 10px;
-            transition: opacity 0.3s;
-        }
-
-        .movie:hover img {
-            opacity: 0.7;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-gap: 10px;
-        }
-
-        .movie-title {
-            position: absolute;
-            display: none;
-            width: 215px;
-            text-align: center;
-            background-color: rgba(0, 0, 0, 0.8);
-            color: #fff;
-            padding: 5px;
-            font-size: 20px;
-            pointer-events: none;
-            margin-top : 200px;
-        }
-
-        .movie:hover .movie-title {
-            display: block;
 }

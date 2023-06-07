@@ -15,6 +15,9 @@ div {
 	vertical-align: middle;
 }
 
+#board {
+	margin-top: 50px;	
+}
 
 input[type=text]{
 	border-color:lightgrey;
@@ -23,7 +26,8 @@ input[type=text]{
 #userid{
 	margin:5px 0;
 	height:25px;
-	width:14%;	
+	width:14%;
+	border:none;	
 }
 
 #boardCategory{
@@ -35,7 +39,7 @@ input[type=text]{
 #title{
 	margin:5px 0;
 	height:25px;
-	width:100%;	
+	width:99%;	
 }
 
 #boardContent {

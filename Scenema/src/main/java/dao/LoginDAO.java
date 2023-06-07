@@ -19,4 +19,12 @@ public class LoginDAO {
 		return session.selectOne("getUserlogin", userid);
 	}
 	
+	public int userUpdate(UserDTO dto) {
+		return session.update("UserUpdate",dto);
+	}
+	
+	public int deleteUser(String userid) {
+		return session.delete("UserDelete",userid);
+	}
+	
 }

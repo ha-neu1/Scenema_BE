@@ -53,7 +53,7 @@ $(document).ready(function(){
 				<input type="password" name="pw" id="pw" placeholder="PW">
 			</div>
 			<button type="button" name="login" id="loginButton">로그인</button>
-			<a href="signUp.html" id="signUpLink" title="환영합니다.">회원가입</a>
+			<a href="/scenema/signup" id="signUpLink" title="환영합니다.">회원가입</a>
 		</form>
 	</article>
 	

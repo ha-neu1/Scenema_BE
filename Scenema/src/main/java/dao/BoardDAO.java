@@ -14,19 +14,33 @@ public class BoardDAO {
 	@Autowired
 	SqlSession session;
 	
-	//°Ô½Ã¹° ÀÛ¼º
+	//ï¿½Ô½Ã¹ï¿½ ï¿½Û¼ï¿½
 	public int boardWriting(BoardDTO dto) {
 		return session.insert("boardWriting", dto);
 	}
 	
-	//°Ô½Ã¹° ¸ñ·Ï
+	//ï¿½Ô½Ã¹ï¿½ ï¿½ï¿½ï¿½
 	public List<BoardDTO> getBoardList(BoardDTO dto) {
         return session.selectList("getBoardList", dto);
     }
 	
-	//°Ô½Ã¹° Á¶È¸
+	//ï¿½Ô½Ã¹ï¿½ ï¿½ï¿½È¸
     public List<BoardDTO> getBoardListById(int boardid){
     	return session.selectList("getBoardListById", boardid);
     }
+
+    public int boardViewUp(int boardid){
+    	return session.update("boardViewUp", boardid);
+    }
+
+    public int boardUpdate(BoardDTO dto){
+    	return session.update("boardUpdating", dto);
+    }
+
+    public int boardDelete(int boardid){
+    	return session.delete("boardDelete", boardid);
+    }
+    
+    
     
 }

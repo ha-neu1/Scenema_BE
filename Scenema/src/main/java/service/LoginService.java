@@ -15,4 +15,12 @@ public class LoginService {
 		return dao.getUser(userid);
 	}
 	
+	public int userUpdate(UserDTO dto) {
+		return dao.userUpdate(dto);
+	}
+	
+	public int deleteUser(String userid) {
+		return dao.deleteUser(userid);
+	}
+	
 }
