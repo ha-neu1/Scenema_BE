@@ -74,15 +74,12 @@ public class MovieAPI {
             // 데이터 추출
             JSONObject boxOfficeResult = responseBody.getJSONObject("boxOfficeResult");
  
-            // 박스오피스 주제 출력
-            String boxofficeType = boxOfficeResult.getString("boxofficeType");
- 
             // 박스오피스 목록 출력
             JSONArray dailyBoxOfficeList = boxOfficeResult.getJSONArray("dailyBoxOfficeList");
             Iterator<Object> iter = dailyBoxOfficeList.iterator();
             while(iter.hasNext()) {
                 JSONObject boxOffice = (JSONObject) iter.next();
-                result += boxOffice.get("movieNm")+"|";
+                result += boxOffice.getString("movieNm")+","+boxOffice.getString("openDt")+"|";
             }
         } catch (IOException e) {
             e.printStackTrace();

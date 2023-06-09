@@ -29,4 +29,8 @@ public class MovieDBService {
 		return dao.getAllMovie();
 	}
 	
+	public List<MovieDTO> getGenreMovie(String genre){
+		return dao.getGenreMovie(genre);
+	}
+	
 }

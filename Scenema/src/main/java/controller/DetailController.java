@@ -1,9 +1,5 @@
 package controller;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -59,9 +55,6 @@ public class DetailController {
 		
 		//Video url
 		String newVideoUrls = dto.getVideourl();
-		if(dto.getVideourl().contains("www.kmdb.or.kr/db/kor/detail/movie")) {
-			newVideoUrls = videourl(dto.getVideourl());
-		}
 		String newVideos [] = newVideoUrls.split("\\|");
 		
 		//영화 평점
@@ -225,57 +218,11 @@ public class DetailController {
 		return "{\"startpage\":"+startpage+"}";
 	}
 	
-	
-	
 	//평점댓글 삭제
 	@RequestMapping(value="/commentdelete", produces = {"application/json;charset=utf-8"})
 	public String deleteComment(int movieid, int moviecommentid) {
 		service_c.deleteComment(moviecommentid);
 		return "redirect:/detailpage?movieid="+movieid;
 	}
-
-//	//평점댓글 좋아요 +1
-//	@RequestMapping(value="/likeup", produces = {"application/json;charset=utf-8"})
-//	public String commentLikeUp(int movieid, int moviecommentid) {
-//		service_c.updateLikeUp(moviecommentid);
-//		return "redirect:/detailpage?movieid="+movieid;
-//	}
-//
-//	//평점댓글 좋아요취소 -1
-//	@RequestMapping(value="/likedown", produces = {"application/json;charset=utf-8"})
-//	public String commentLikeDown(int movieid, int moviecommentid) {
-//		service_c.updateLikeDown(moviecommentid);
-//		return "redirect:/detailpage?movieid="+movieid;
-//	}
-
-	//동영상 url 변환용 메서드 - 추후 db수정
-    public static String videourl(String videourl) {
-    	String pageContents = "";
-    	StringBuilder contents = new StringBuilder();
-
-    	if(!videourl.equals("")) {
-    		String urlPath = videourl;
-    		try{
-    			URL url = new URL(urlPath);
-    			URLConnection con = (URLConnection)url.openConnection();
-    			InputStreamReader reader = new InputStreamReader (con.getInputStream(), "utf-8");
-    			
-    			BufferedReader buff = new BufferedReader(reader);
-    			
-    			while((pageContents = buff.readLine())!=null){
-    				if(pageContents.contains("fcnPlay")&&pageContents.contains("\'")) {
-    					String link = pageContents.strip();
-    					link = link.substring(link.indexOf("\'")+1, link.lastIndexOf("\'"));
-    					contents.append("https://www.kmdb.or.kr/trailer/play/"+link+"|");
-    				}
-    			}
-//    			System.out.println(contents);
-    			buff.close();
-    		}catch(Exception e){
-    			e.printStackTrace();
-    		}
-    	}
-        return contents.toString();
-    }
     
 }

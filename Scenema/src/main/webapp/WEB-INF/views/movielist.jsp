@@ -12,11 +12,11 @@
 <body>
 	<%@ include file="Header.jsp"%>
 
-	<h3 id='boxtitle'>장르별 <span style="color:#FF7322;font-family: 'NanumSquareNeoExtraBold';">인기 영화</span></h3>
+	<h3 id='boxtitle'>SCENEMA Users Pick! <span style="color:#FF7322;font-family: 'NanumSquareNeoExtraBold';">인기 영화</span></h3>
 	<div class="products">
 		<h3><span style="color:#FF7322;">⧉</span>액션</h3>
 		<div class='products_box'>
-			<c:forEach items="${movielist}" var="list" varStatus="vs" end="4" >
+			<c:forEach items="${movielist_action}" var="list" varStatus="vs">
 				<span class="image-container">
 	 				<a href="detailpage?movieid=${list.movieid}">
 	   			<img class="apiposter" src="${list.posterurl}" data-title="${list.title}">
@@ -28,7 +28,7 @@
 			
 		<h3><span style="color:#FF7322;">⧉</span>판타지</h3>
 		<div class='products_box'>
-			<c:forEach items="${movielist}" var="list" varStatus="vs" begin="5" end="9" >
+			<c:forEach items="${movielist_fantasy}" var="list" varStatus="vs">
 				<span class="image-container">
 	 				<a href="detailpage?movieid=${list.movieid}">
 	   				<img class="apiposter" src="${list.posterurl}" data-title="${list.title}">
@@ -40,7 +40,7 @@
 		
 		<h3><span style="color:#FF7322;">⧉</span>드라마</h3>
 		<div class='products_box'>
-			<c:forEach items="${movielist}" var="list" varStatus="vs" begin="10" end="14">
+			<c:forEach items="${movielist_drama}" var="list" varStatus="vs">
 				<span class="image-container">
 	 				<a href="detailpage?movieid=${list.movieid}">
 	   			<img class="apiposter" src="${list.posterurl}" data-title="${list.title}">
@@ -50,9 +50,9 @@
 			</c:forEach>
 		</div>
 		
-		<h3><span style="color:#FF7322;">⧉</span>애니메이션</h3>
+		<h3><span style="color:#FF7322;">⧉</span>가족</h3>
 		<div class='products_box'>
-			<c:forEach items="${movielist}" var="list" varStatus="vs" begin="15" end="19" >
+			<c:forEach items="${movielist_family}" var="list" varStatus="vs">
 				<span class="image-container">
 	 				<a href="detailpage?movieid=${list.movieid}">
 	   			<img class="apiposter" src="${list.posterurl}" data-title="${list.title}">

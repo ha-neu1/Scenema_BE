@@ -26,11 +26,11 @@ import dto.MovieDTO;
  
 public class MovieDBMain {
     // 상수 설정 - 요청(Request) 요청 변수
-    private final String REQUEST_URL = "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp";
-    private final String AUTH_KEY = "N17IX12019AYWQVW2I2K";
+    private final static String REQUEST_URL = "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp";
+    private final static String AUTH_KEY = "N17IX12019AYWQVW2I2K";
  
     // Map -> QueryString
-    public String makeQueryString(Map<String, String> paramMap) {
+    public static String makeQueryString(Map<String, String> paramMap) {
         final StringBuilder sb = new StringBuilder();
  
         paramMap.entrySet().forEach(new Consumer<Entry<String, String>>() {
@@ -54,8 +54,8 @@ public class MovieDBMain {
         paramMap.put("collection", "kmdb_new2");    // 컬렉션
         paramMap.put("detail", "Y");    // 디테일
         paramMap.put("releaseDts", "20230101");  // 조회하고자 하는 날짜
-        paramMap.put("releaseDte", "20230531");  // 조회하고자 하는 날짜
-        paramMap.put("listCount", "250");        // 결과 ROW 의 개수( 최대 10개 )
+        paramMap.put("releaseDte", "20230608");  // 조회하고자 하는 날짜
+        paramMap.put("listCount", "300");        // 결과 ROW 의 개수( 최대 10개 )
  
         try {
             // Request URL 연결 객체 생성
@@ -102,7 +102,9 @@ public class MovieDBMain {
             	
             	//videourl 수정 메서드 실행
             	String videourl= Results.getJSONObject(i).getJSONObject("vods").getJSONArray("vod").getJSONObject(0).get("vodUrl").toString();
-                String newvideourl = videourl(videourl);
+                System.out.println("★★★★★"+videourl);
+            	String newvideourl = videourl(videourl.split("\\|")[0]);
+            	System.out.println("★★★★★"+newvideourl);
                 dto.setVideourl(newvideourl);
             	
             	dtoarray.add(dto);
@@ -116,8 +118,8 @@ public class MovieDBMain {
     }
     
     // API요청(특정영화)
-    public MovieDTO requestAPIone(String title) throws UnsupportedEncodingException {
-    	MovieDTO dto = new MovieDTO();
+    public static ArrayList<MovieDTO> requestAPIone(String title, String openDate) throws UnsupportedEncodingException {
+    	ArrayList<MovieDTO> dtoarray = new ArrayList<MovieDTO>();
     	//인코딩
     	String encodeResult = URLEncoder.encode(title, "UTF-8");
     	
@@ -127,6 +129,7 @@ public class MovieDBMain {
         paramMap.put("collection", "kmdb_new2"); // 컬렉션
         paramMap.put("detail", "Y");
         paramMap.put("title", encodeResult); //타이틀
+        paramMap.put("releaseDts", openDate); //개봉일
  
         try {
             // Request URL 연결 객체 생성
@@ -155,24 +158,40 @@ public class MovieDBMain {
             
             //System.out.println(Results);
             
-            dto = new MovieDTO();
-            dto.setTitle(Results.getJSONObject(0).get("titleEtc").toString().split(",")[1].strip());
-            dto.setTitleEng(Results.getJSONObject(0).get("titleEng").toString());
-            dto.setStory(Results.getJSONObject(0).getJSONObject("plots").getJSONArray("plot").getJSONObject(0).get("plotText").toString());
-            dto.setGenre(Results.getJSONObject(0).get("genre").toString());
-            dto.setRuntime(Integer.parseInt(Results.getJSONObject(0).get("runtime").toString()));
-            dto.setDirector(Results.getJSONObject(0).getJSONObject("directors").getJSONArray("director").getJSONObject(0).get("directorNm").toString());
-            dto.setReleaseDate(Results.getJSONObject(0).get("repRlsDate").toString());
-            dto.setRating(Results.getJSONObject(0).get("rating").toString());
-            dto.setPosterurl(Results.getJSONObject(0).get("posters").toString());
-            dto.setStillcuturls(Results.getJSONObject(0).get("stlls").toString());
-            dto.setVideourl(Results.getJSONObject(0).getJSONObject("vods").getJSONArray("vod").getJSONObject(0).get("vodUrl").toString());
+            for(int i=0; i<Results.length(); i++) {
+            	MovieDTO dto = new MovieDTO();
+            	
+            	String resultTitle = Results.getJSONObject(i).get("title").toString().strip();
+            	resultTitle = resultTitle.replaceAll("([!][H][E])", " ");
+        		resultTitle = resultTitle.replaceAll("([!][H][S])", " ");
+        		resultTitle = resultTitle.replaceAll("\\s+", " ");
+        		resultTitle = resultTitle.replaceFirst("\\s", "");
+            	dto.setTitle(resultTitle);
+            	dto.setTitleEng(Results.getJSONObject(i).get("titleEng").toString());
+            	dto.setStory(Results.getJSONObject(i).getJSONObject("plots").getJSONArray("plot").getJSONObject(0).get("plotText").toString());
+            	dto.setGenre(Results.getJSONObject(i).get("genre").toString());
+            	dto.setRuntime(Integer.parseInt(Results.getJSONObject(i).get("runtime").toString()));
+            	dto.setDirector(Results.getJSONObject(i).getJSONObject("directors").getJSONArray("director").getJSONObject(0).get("directorNm").toString());
+            	dto.setReleaseDate(Results.getJSONObject(i).get("repRlsDate").toString());
+            	dto.setRating(Results.getJSONObject(i).get("rating").toString());
+            	dto.setPosterurl(Results.getJSONObject(i).get("posters").toString());
+            	dto.setStillcuturls(Results.getJSONObject(i).get("stlls").toString());
+            	
+            	//videourl 수정 메서드 실행
+            	String videourl= Results.getJSONObject(i).getJSONObject("vods").getJSONArray("vod").getJSONObject(0).get("vodUrl").toString();
+                System.out.println("★★★★★"+videourl);
+            	String newvideourl = videourl(videourl.split("\\|")[0]);
+            	System.out.println("★★★★★"+newvideourl);
+                dto.setVideourl(newvideourl);
+            	
+            	dtoarray.add(dto);
+            }
             
         } catch (IOException e) {
             e.printStackTrace();
         }
         
-        return dto;
+        return dtoarray;
     }
     
     //동영상 url 변환
@@ -184,7 +203,6 @@ public class MovieDBMain {
     		String urlPath = videourl;
     		
     		try{
-    			
     			URL url = new URL(urlPath);
     			URLConnection con = (URLConnection)url.openConnection();
     			InputStreamReader reader = new InputStreamReader (con.getInputStream(), "utf-8");
@@ -219,20 +237,11 @@ public class MovieDBMain {
         // API 객체 생성
         MovieDBMain api = new MovieDBMain();
  
-        // Database 생성
+        // 초기 Database 생성
         ArrayList<MovieDTO> dtoarray = api.requestAPI();
         for(MovieDTO dto : dtoarray) {
-        	String videourl = dto.getVideourl();
-        	String newurl = videourl(videourl);
-        	dto.setVideourl(newurl);
         	dao.insertMovieDB(dto);
         }
-        
-        // 재개봉영화 추가
-        MovieDTO newdto = api.requestAPIone("극장판포켓몬스터DP:아르세우스초극의시공으로");
-        System.out.println(newdto.getTitle());
-        dao.insertMovieDB(newdto);
-        
         
     }
 }

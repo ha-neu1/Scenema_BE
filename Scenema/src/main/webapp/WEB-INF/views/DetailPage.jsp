@@ -205,6 +205,8 @@ $(document).ready(function() {
 				type:'get',
 				success:function(res){
 					$('#cmt_list').load(location.href+' #cmt_list');
+					$('#cmts_cnt').load(location.href+' #cmts_cnt');
+					$('#titleBottom').load(location.href+' #titleBottom');
 					$('#page_btns_box').load(location.href+' #page_btns_box');
 				},
 				error:function(request,status,e){
@@ -371,10 +373,10 @@ $(document).ready(function() {
 					<h1 style="font-size: 20px">${movie.titleEng}</h1>
 					<div id='movielikediv'>
 						<c:if test="${ismovielike==0}">
-							<button id='movielike'>♥ ${movielikecount}</button>
+							<button id='movielike'>♥ ${movie.movielike+movielikecount}</button>
 						</c:if>
 						<c:if test="${ismovielike!=0}">
-							<button id='movielike' style="background-color: white; color: #EA2649">♥ ${movielikecount}</button>
+							<button id='movielike' style="background-color: white; color: #EA2649">♥ ${movie.movielike+movielikecount}</button>
 						</c:if>
 					</div>
 				</div>

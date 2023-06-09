@@ -33,4 +33,9 @@ public class MovieDAO {
 		return session.selectList("getAllMovie");
 	}
 	
+	public List<MovieDTO> getGenreMovie(String genre) {
+		return session.selectList("getGenreMovie", genre);
+	}
+	
+	
 }

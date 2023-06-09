@@ -19,39 +19,30 @@ public class MovieController {
 
     @GetMapping("/movielist")
     public ModelAndView main() {
-    	ArrayList<MovieDTO> movielist = new ArrayList<MovieDTO>();
+    	List<MovieDTO> movielist_action = service.getGenreMovie("액션");
+    	List<MovieDTO> movielist_fantasy = service.getGenreMovie("판타지");
+    	List<MovieDTO> movielist_drama = service.getGenreMovie("드라마");
+    	List<MovieDTO> movielist_family = service.getGenreMovie("가족");
     	
-    	movielist.add(service.getMovieFromID(55));
-    	movielist.add(service.getMovieFromID(53));
-    	movielist.add(service.getMovieFromID(251));
-    	movielist.add(service.getMovieFromID(108));
-    	movielist.add(service.getMovieFromID(229));
+    	ArrayList<List<MovieDTO>> movielist = new ArrayList<List<MovieDTO>>();
+    	movielist.add(movielist_action);
+    	movielist.add(movielist_fantasy);
+    	movielist.add(movielist_drama);
+    	movielist.add(movielist_family);
     	
-    	movielist.add(service.getMovieFromID(118));
-    	movielist.add(service.getMovieFromID(248));
-    	movielist.add(service.getMovieFromID(259));
-    	movielist.add(service.getMovieFromID(82));
-    	movielist.add(service.getMovieFromID(95));
-    	
-    	movielist.add(service.getMovieFromID(56));
-    	movielist.add(service.getMovieFromID(88));
-    	movielist.add(service.getMovieFromID(93));
-    	movielist.add(service.getMovieFromID(213));
-    	movielist.add(service.getMovieFromID(172));
-
-    	movielist.add(service.getMovieFromID(64));
-    	movielist.add(service.getMovieFromID(28));
-    	movielist.add(service.getMovieFromID(195));
-    	movielist.add(service.getMovieFromID(169));
-    	movielist.add(service.getMovieFromID(248));
-    	
-    	for(MovieDTO dto : movielist) {
-    		String poster = dto.getPosterurl().split("\\|")[0];
-    		dto.setPosterurl(poster);
+    	for(List<MovieDTO> list : movielist) {
+    		for(MovieDTO dto : list) {
+    			String poster = dto.getPosterurl().split("\\|")[0];
+    			dto.setPosterurl(poster);
+    		}
     	}
     	
     	ModelAndView mv = new ModelAndView();
     	mv.addObject("movielist",movielist);
+    	mv.addObject("movielist_action",movielist_action);
+    	mv.addObject("movielist_fantasy",movielist_fantasy);
+    	mv.addObject("movielist_drama",movielist_drama);
+    	mv.addObject("movielist_family",movielist_family);
     	mv.setViewName("movielist");
         return mv;
     }

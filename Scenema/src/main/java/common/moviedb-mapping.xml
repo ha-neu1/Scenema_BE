@@ -24,5 +24,9 @@
 	<select id="getAllMovie" resultType="dto.MovieDTO">
 		select * from moviedb
 	</select>
+
+	<select id="getGenreMovie" resultType="dto.MovieDTO" parameterType="String">
+		select * from moviedb where genre like concat('%',#{genre},'%') order by movielike desc limit 0, 5;
+	</select>
 	
 </mapper>
