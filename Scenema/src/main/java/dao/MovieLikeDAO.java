@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -36,5 +37,9 @@ public class MovieLikeDAO {
 	
 	public List<MovieLikeDTO> listMovieLikeByUser(String userid) {
 		return session.selectList("listMovieLikeByUser", userid);
+	}
+	
+	public List<MovieLikeDTO> listMovieLikeByUserPaging(HashMap<String, Object> map) {
+		return session.selectList("listMovieLikeByUserPaging", map);
 	}
 }

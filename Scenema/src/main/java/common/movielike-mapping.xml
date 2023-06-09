@@ -23,6 +23,10 @@
         SELECT * FROM movielike where userid=#{userid};
     </select>
     
+    <select id="listMovieLikeByUserPaging" resultType="dto.MovieLikeDTO" parameterType="hashmap">
+        SELECT * FROM movielike where userid=#{userid} limit #{page}, 20;
+    </select>
+    
     <!-- ★영화댓글좋아요★ -->
     
     <select id="isMovieCmtLike" resultType="int" parameterType="dto.MovieCmtLikeDTO">

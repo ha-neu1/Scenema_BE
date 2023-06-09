@@ -1,5 +1,6 @@
 package service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,10 @@ public class MovieLikeService {
 	
 	public List<MovieLikeDTO> listMovieLikeByUser(String userid){
 		return dao.listMovieLikeByUser(userid);
+	}
+	
+	public List<MovieLikeDTO> listMovieLikeByUserPaging(HashMap<String, Object> map){
+		return dao.listMovieLikeByUserPaging(map);
 	}
 	
 }
