@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import dto.BoardDTO;
+import dto.Criteria;
 
 @Repository
 public class BoardDAO {
@@ -14,17 +15,14 @@ public class BoardDAO {
 	@Autowired
 	SqlSession session;
 	
-	//�Խù� �ۼ�
 	public int boardWriting(BoardDTO dto) {
 		return session.insert("boardWriting", dto);
 	}
 	
-	//�Խù� ���
 	public List<BoardDTO> getBoardList(BoardDTO dto) {
         return session.selectList("getBoardList", dto);
     }
 	
-	//�Խù� ��ȸ
     public List<BoardDTO> getBoardListById(int boardid){
     	return session.selectList("getBoardListById", boardid);
     }
@@ -41,6 +39,12 @@ public class BoardDAO {
     	return session.delete("boardDelete", boardid);
     }
     
+    public List<BoardDTO> list(Criteria cri) throws Exception{
+    	return session.selectList("listPage", cri);
+    }
     
+    public int listCount() throws Exception {
+    	return session.selectOne("listCount");
+    }
     
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import dao.BoardDAO;
 import dto.BoardDTO;
+import dto.Criteria;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -17,11 +18,6 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int boardWriting(BoardDTO dto) {
 		return dao.boardWriting(dto);
-	}
-
-	@Override
-	public List<BoardDTO> getBoardList(BoardDTO dto) {
-		return dao.getBoardList(dto);
 	}
 
 	@Override
@@ -43,5 +39,15 @@ public class BoardServiceImpl implements BoardService {
 	public int boardUpdate(BoardDTO dto) {
 		return dao.boardUpdate(dto);
 	}
-	
+
+	@Override
+	public List<BoardDTO> list(Criteria cri) throws Exception {
+		return dao.list(cri);
+	}
+
+	@Override
+	public int listCount() throws Exception {
+		return dao.listCount();
+	}
+		
 }

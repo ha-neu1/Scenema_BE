@@ -3,11 +3,6 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board">
 
-<!-- 게시글 리스트 조회하기 -->
-	<select id="getBoardList" resultType="boarddto">
-		SELECT * FROM board;
-	</select>
-
 <!-- 특정 게시물 조회하기 -->
 	<select id="getBoardListById" resultType="boarddto">
 		SELECT * FROM board WHERE boardid = #{boardid};
@@ -46,5 +41,23 @@
         VALUES (#{boardid}, #{userid}, #{bcCreateAt}, #{contents});
     </insert>
     
+<!-- 게시물 조회하기 -->
+	<select id="listPage" resultType="boarddto" parameterType="dto.Criteria">
+		SELECT boardid, userid, title, creatAt, boardCount, boardLike, boardContent
+		FROM ( SELECT boardid, userid, title, creatAt, boardCount, boardLike, boardContent,
+		ROW_NUMBER() OVER(ORDER BY boardid ASC) AS rNum 
+		FROM board
+		) 
+		board
+		WHERE rNum BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY boardid ASC;
+	</select>
 
+<!-- 게시물 총 갯수 -->
+	<select id="listCount" resultType="int">
+		SELECT COUNT(boardid) 
+		FROM board 
+		WHERE boardid > 0;
+	</select>
+	
 </mapper>
