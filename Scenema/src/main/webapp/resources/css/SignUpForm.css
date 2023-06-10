@@ -12,7 +12,7 @@ article {
 	margin: 50px auto;
 	padding : 20px;
 	width: 450px;
-	height: 600px;
+	height: 700px;
 }
 
 article h2{
@@ -37,6 +37,15 @@ input {
 	padding: 5px 10px;
 	width: 378px;
 }
+
+.formindiv>.email-tag {
+	margin-bottom: 0px;
+}
+
+.formindiv>.etc-tag {
+	margin-bottom: 11px;
+}
+
 
 #emailinner {
 	display:inline-block;

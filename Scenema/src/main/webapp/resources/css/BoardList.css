@@ -13,6 +13,10 @@ div {
 	height:120px;
 }
 
+.SearchBar > h2 {
+	color:#FF7322;
+}
+
 .SearchBar {
 	width: 1024px;
 	height: 65px;
@@ -21,12 +25,8 @@ div {
 	margin-left: -10px;
     text-align: left;
 }
-
-.SearchBar > h2 {
-	color:#FF7322;
-}
-
-.SearchInput {
+/*
+.searchInput {
 	width:400px;
 }
 
@@ -47,10 +47,10 @@ div {
 	border:#FF7322;
     color: white;
 }
-
+*/
 .bt_wrap {
     margin-left: 461px;
-    margin-top: -28px;
+    margin-top: -35px;
     text-align: center;
     font-size: 0;
 }
@@ -109,7 +109,7 @@ div {
 
 .board_list .num {
     width: 3%;
-    text-align: left;
+    text-align: center;
     margin-left: 20px;
 }
 
@@ -140,39 +140,27 @@ div {
 } */
 
 .board_page {
-    margin-top: 30px;
-    text-align: center;
-    font-size: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .board_page a {
-    display: inline-block;
-    width: 32px;
+	display: inline-block;
+	width: 32px;
     height: 32px;
-    box-sizing: border-box;
-    vertical-align: middle;
+	box-sizing: border-box;
+	vertical-align: middle;
     border: 1px solid #ddd;
-    border-left: 0;
-    line-height: 100%;
-}
-
-.board_page a.bt {
-    padding-top: 10px;
+    text-align: center;
     font-size: 12px;
-    letter-spacing: -1px;
+    text-decoration: none;
+    color: inherit;
 }
 
-.board_page a.num {
-    padding-top: 9px;
-    font-size: 12px;
-}
-
-.board_page a.num.on {
+.pageControl {
+	height: 34px;
     border-color: #000;
-    background: #000;
+    background-color: #000;
     color: #fff;
-}
-
-.board_page a:first-child {
-    border-left: 1px solid #ddd;
 }

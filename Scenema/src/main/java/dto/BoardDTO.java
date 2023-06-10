@@ -61,5 +61,4 @@ public class BoardDTO {
 		this.attachment = attachment;
 	}
 	
-	
 }
