@@ -32,8 +32,8 @@
 				<span class="image-container">
 	 				<a href="detailpage?movieid=${list.movieid}">
 	   				<img class="apiposter" src="${list.posterurl}" data-title="${list.title}">
-	 				</a>
 	   				<span class="movie-title">${list.title}</span>
+	 				</a>
 				</span>
 			</c:forEach>
 		</div>
