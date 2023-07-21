@@ -66,18 +66,18 @@
 
 	<div class="slideshow-container">
 		<div class="mySlides fade">
-			<img src="resources/pic/movie1.png" style="width: 100%">
-			<div class="text">가디언즈 오브 갤럭시 vol3</div>
+			<img src="https://i.ytimg.com/vi/5q9JD0hlxlI/maxresdefault.jpg" style="width: 100%; ">
+			<div class="text">미션 임파서블 : 데드 레코닝 PART ONE</div>
 		</div>
 
 		<div class="mySlides fade">
-			<img src="resources/pic/movie2.png" style="width: 100%">
-			<div class="text">슈퍼 마리오 브라더스</div>
+			<img src="https://cdn.thecolumnist.kr/news/photo/202306/2252_5060_1551.jpg" style="width: 100%; height: 580px">
+			<div class="text">엘리멘탈</div>
 		</div>
 
 		<div class="mySlides fade">
-			<img src="resources/pic/movie3.png" style="width: 100%">
-			<div class="text">극장판 짱구는 못말려: 동물소환 닌자 배꼽수비대</div>
+			<img src="https://i.ytimg.com/vi/pWnyp5OXW-s/mqdefault.jpg" style="width: 100%; height: 580px">
+			<div class="text">바비</div>
 		</div>
 
 		<a class="prev" onclick="plusSlides(-1)">&#10094;</a> <a class="next"

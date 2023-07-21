@@ -17,6 +17,7 @@ div {
 header {
 	height: 98px;
 	margin: 10px auto;
+	margin-bottom: 15px;
 }
 #logo {
 	font-family: 'NanumSquareNeoHeavy';
